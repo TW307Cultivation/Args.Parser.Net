@@ -1,4 +1,5 @@
-﻿using Parser.Tests;
+﻿using System;
+using Parser.Tests;
 
 namespace Parser
 {
@@ -27,7 +28,12 @@ namespace Parser
         {
             if (initialized)
             {
-                throw new FlagException("Can not add flag option more than once");
+                throw new ParserException("Can only specify flag once.");
+            }
+
+            if (string.IsNullOrWhiteSpace(fullForm) && string.IsNullOrWhiteSpace(abbreviationForm?.ToString()))
+            {
+                throw new ParserException("Must specify flag with full form or abbreviation form.");
             }
 
             initialized = true;
