@@ -82,5 +82,18 @@ namespace Parser.Tests
             Assert.NotNull(exception);
             Assert.Equal("Invalid full form.", exception.Message);
         }
+
+        [Theory]
+        [InlineData(' ')]
+        [InlineData('*')]
+        [InlineData('0')]
+        void should_throw_exception_when_abbreviation_form_is_invalid(char abbreviation)
+        {
+            var builder = new ArgsParserBuilder();
+
+            var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption("flag", abbreviation));
+            Assert.NotNull(exception);
+            Assert.Equal("Invalid abbreviation form.", exception.Message);
+        }
     }
 }

@@ -42,6 +42,11 @@ namespace Parser
                 throw new ParserException("Invalid full form.");
             }
 
+            if (abbreviationForm != null && !char.IsLetter(abbreviationForm.Value))
+            {
+                throw new ParserException("Invalid abbreviation form.");
+            }
+
             initialized = true;
             parser.FullForm = fullForm;
             parser.AbbreviationForm = abbreviationForm;
