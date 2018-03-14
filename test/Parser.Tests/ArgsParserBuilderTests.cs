@@ -69,5 +69,18 @@ namespace Parser.Tests
             Assert.NotNull(exception);
             Assert.Equal("Must specify flag with full form or abbreviation form.", exception.Message);
         }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("abc*&")]
+        [InlineData("-abc")]
+        void should_throw_exception_when_full_form_is_invalid(string fullForm)
+        {
+            var builder = new ArgsParserBuilder();
+
+            var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption(fullForm, 'f'));
+            Assert.NotNull(exception);
+            Assert.Equal("Invalid full form.", exception.Message);
+        }
     }
 }

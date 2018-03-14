@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
 using Parser.Tests;
 
 namespace Parser
@@ -7,6 +7,7 @@ namespace Parser
     {
         bool initialized;
         readonly ArgsParser parser;
+        static readonly Regex FullFormRegex = new Regex(@"^[a-zA-Z\d_]+[a-zA-Z\d_-]*$", RegexOptions.Compiled);
 
         public ArgsParserBuilder()
         {
@@ -34,6 +35,11 @@ namespace Parser
             if (string.IsNullOrWhiteSpace(fullForm) && string.IsNullOrWhiteSpace(abbreviationForm?.ToString()))
             {
                 throw new ParserException("Must specify flag with full form or abbreviation form.");
+            }
+
+            if (fullForm != null && !FullFormRegex.Match(fullForm).Success)
+            {
+                throw new ParserException("Invalid full form.");
             }
 
             initialized = true;
