@@ -68,7 +68,7 @@ namespace Parser.Tests
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption(fullForm, abbreviationForm));
             Assert.NotNull(exception);
-            Assert.Equal("Must specify flag with full form or abbreviation form.", exception.Message);
+            Assert.Equal("Must specify flag with full form or abbreviation form", exception.Message);
         }
 
         [Theory]
@@ -81,7 +81,7 @@ namespace Parser.Tests
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption(fullForm, 'f'));
             Assert.NotNull(exception);
-            Assert.Equal("Invalid full form.", exception.Message);
+            Assert.Equal($"Invalid full form: {fullForm}", exception.Message);
         }
 
         [Theory]
@@ -94,7 +94,7 @@ namespace Parser.Tests
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption("flag", abbreviation));
             Assert.NotNull(exception);
-            Assert.Equal("Invalid abbreviation form.", exception.Message);
+            Assert.Equal($"Invalid abbreviation form: {abbreviation}", exception.Message);
         }
     }
 }

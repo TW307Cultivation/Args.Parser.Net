@@ -8,17 +8,17 @@ namespace Parser.Models
         {
             if (string.IsNullOrWhiteSpace(full) && string.IsNullOrWhiteSpace(abbr?.ToString()))
             {
-                throw new ParserException("Must specify flag with full form or abbreviation form.");
+                throw new ParserException("Must specify flag with full form or abbreviation form");
             }
 
             if (full != null && !Config.FullOptionRegex.Match(full).Success)
             {
-                throw new ParserException("Invalid full form.");
+                throw new ParserException($"Invalid full form: {full}");
             }
 
             if (abbr != null && !Config.AbbrOptionRegex.Match(abbr.ToString()).Success)
             {
-                throw new ParserException("Invalid abbreviation form.");
+                throw new ParserException($"Invalid abbreviation form: {abbr}");
             }
 
             this.Full = full?.ToLower();
