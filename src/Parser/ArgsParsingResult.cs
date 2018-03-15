@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Parser.Models;
 
@@ -19,8 +20,13 @@ namespace Parser
         {
             return arguments
                 .Where(e => e.Type == OptionType.Flag)
-                .Any(e => $"{Config.FullArgPrefix}{e.Full}" == flag ||
-                          $"{Config.AbbrArgPrefix}{e.Abbr}" ==  flag);
+                .Any(e => FlagEquals(e, flag));
+        }
+
+        bool FlagEquals(OptionBase arg, string y)
+        {
+            return string.Equals($"{Config.FullArgPrefix}{arg.Full}", y, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals($"{Config.AbbrArgPrefix}{arg.Abbr}", y, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

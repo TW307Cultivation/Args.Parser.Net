@@ -46,6 +46,10 @@ namespace Parser.Tests
         [Theory]
         [InlineData("--flag", "-f")]
         [InlineData("-f", "--flag")]
+        [InlineData("--FLAG", "-f")]
+        [InlineData("-F", "--flag")]
+        [InlineData("--flag", "-F")]
+        [InlineData("-f", "--FLAG")]
         void should_get_flag_true_when_parse_success(string argument, string flagArgument)
         {
             var result = parser.Parse(new[] {argument});

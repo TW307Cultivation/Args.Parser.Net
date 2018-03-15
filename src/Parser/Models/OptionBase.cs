@@ -12,8 +12,9 @@
 
         protected bool Equals(OptionBase other)
         {
-            return Full != null && string.Equals(Full, other.Full) ||
-                   Abbr.HasValue && other.Abbr.HasValue && Abbr.Value == other.Abbr.Value;
+            return Type == other.Type &&
+                   (Full != null && string.Equals(Full, other.Full)) ||
+                   (Abbr.HasValue && other.Abbr.HasValue && Abbr.Value == other.Abbr.Value);
         }
 
         public override bool Equals(object obj)

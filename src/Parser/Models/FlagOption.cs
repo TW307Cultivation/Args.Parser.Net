@@ -21,8 +21,8 @@ namespace Parser.Models
                 throw new ParserException("Invalid abbreviation form.");
             }
 
-            this.Full = full;
-            this.Abbr = abbr;
+            this.Full = full?.ToLower();
+            this.Abbr = abbr?.ToString().ToLower()[0];
             this.Description = description;
         }
 

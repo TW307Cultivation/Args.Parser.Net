@@ -19,7 +19,6 @@ namespace Parser.Models
                 new FlagOption(null, argument[1], null);
 
             var option = options.FirstOrDefault(e => e.Equals(argOption));
-
             if (option == null)
             {
                 throw new ParserException($"Invalid argument format: {argument}");
