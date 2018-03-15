@@ -72,29 +72,29 @@ namespace Parser.Tests
         }
 
         [Theory]
-        [InlineData(" ")]
-        [InlineData("abc*&")]
-        [InlineData("-abc")]
-        void should_throw_exception_when_full_form_is_invalid(string fullForm)
+        [InlineData(" ", "")]
+        [InlineData("abc*&", " abc*&")]
+        [InlineData("-abc", " -abc")]
+        void should_throw_exception_when_full_form_is_invalid(string fullForm, string message)
         {
             var builder = new ArgsParserBuilder();
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption(fullForm, 'f'));
             Assert.NotNull(exception);
-            Assert.Equal($"Invalid full form in this option: {fullForm} f", exception.Message);
+            Assert.Equal($"Invalid full form in this option:{message} f", exception.Message);
         }
 
         [Theory]
-        [InlineData(' ')]
-        [InlineData('*')]
-        [InlineData('0')]
-        void should_throw_exception_when_abbreviation_form_is_invalid(char abbreviation)
+        [InlineData(' ', "")]
+        [InlineData('*', " *")]
+        [InlineData('0', " 0")]
+        void should_throw_exception_when_abbreviation_form_is_invalid(char abbreviation, string message)
         {
             var builder = new ArgsParserBuilder();
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption("flag", abbreviation));
             Assert.NotNull(exception);
-            Assert.Equal($"Invalid abbreviation form in this option: flag {abbreviation}", exception.Message);
+            Assert.Equal($"Invalid abbreviation form in this option: flag{message}", exception.Message);
         }
 
         [Theory]
@@ -104,13 +104,13 @@ namespace Parser.Tests
         [InlineData("a\r\nb\r\nc", " a b c")]
         [InlineData("a\rb\rc", " a b c")]
         [InlineData("a\nb\nc", " a b c")]
-        void should_replace_crlf_with_whitespace_in_description(string description, string expected)
+        void should_replace_crlf_with_whitespace_in_description(string description, string message)
         {
             var builder = new ArgsParserBuilder();
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption('*', description));
             Assert.NotNull(exception);
-            Assert.Equal($"Invalid abbreviation form in this option: *{expected}", exception.Message);
+            Assert.Equal($"Invalid abbreviation form in this option: *{message}", exception.Message);
         }
     }
 }
