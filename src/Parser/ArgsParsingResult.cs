@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Parser.Models;
 
 namespace Parser
 {
     public class ArgsParsingResult
     {
         public bool IsSuccess { get; set; }
-        readonly HashSet<string> flags;
+        readonly HashSet<OptionBase> arguments;
 
-        public ArgsParsingResult()
+        internal ArgsParsingResult(HashSet<OptionBase> arguments)
         {
-            IsSuccess = true;
-            flags = new HashSet<string>();
+            this.IsSuccess = true;
+            this.arguments = arguments ?? new HashSet<OptionBase>();
         }
 
-        public void AddFlag(string argument)
+        public bool GetFlagValue(string flag)
         {
-            flags.Add(argument);
-        }
-
-        public bool GetFlagValue(string argument)
-        {
-            return flags.Contains(argument);
+            return arguments
+                .Where(e => e.Type == OptionType.Flag)
+                .Any(e => $"{Config.FullArgPrefix}{e.Full}" == flag ||
+                          $"{Config.AbbrArgPrefix}{e.Abbr}" ==  flag);
         }
     }
 }

@@ -1,63 +1,38 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using Parser.Models;
 using Parser.Tests;
 
 namespace Parser
 {
     public class ArgsParserBuilder
     {
-        bool initialized;
-        readonly ArgsParser parser;
-        static readonly Regex FullFormRegex = new Regex(@"^[a-zA-Z\d_]+[a-zA-Z\d_-]*$", RegexOptions.Compiled);
+        readonly HashSet<OptionBase> options = new HashSet<OptionBase>();
 
-        public ArgsParserBuilder()
+        public ArgsParserBuilder AddFlagOption(char abbrForm)
         {
-            initialized = false;
-            parser = new ArgsParser();
+            return AddFlagOption(null, abbrForm, null);
         }
 
-        public ArgsParserBuilder AddFlagOption(char abbreviationForm)
+        public ArgsParserBuilder AddFlagOption(string fullForm, char abbrForm)
         {
-            return AddFlagOption(null, abbreviationForm, null);
+            return AddFlagOption(fullForm, abbrForm, null);
         }
 
-        public ArgsParserBuilder AddFlagOption(string fullForm, char abbreviationForm)
+        public ArgsParserBuilder AddFlagOption(string fullForm, char? abbForm = null, string description = null)
         {
-            return AddFlagOption(fullForm, abbreviationForm, null);
-        }
-
-        public ArgsParserBuilder AddFlagOption(string fullForm, char? abbreviationForm = null, string description = null)
-        {
-            if (initialized)
+            if (options.Count > 0)
             {
                 throw new ParserException("Can only specify flag once.");
             }
 
-            if (string.IsNullOrWhiteSpace(fullForm) && string.IsNullOrWhiteSpace(abbreviationForm?.ToString()))
-            {
-                throw new ParserException("Must specify flag with full form or abbreviation form.");
-            }
-
-            if (fullForm != null && !FullFormRegex.Match(fullForm).Success)
-            {
-                throw new ParserException("Invalid full form.");
-            }
-
-            if (abbreviationForm != null && !char.IsLetter(abbreviationForm.Value))
-            {
-                throw new ParserException("Invalid abbreviation form.");
-            }
-
-            initialized = true;
-            parser.FullForm = fullForm;
-            parser.AbbreviationForm = abbreviationForm;
-            parser.Description = description;
+            options.Add(new FlagOption(fullForm, abbForm, description));
 
             return this;
         }
 
         public ArgsParser Build()
         {
-            return parser;
+            return new ArgsParser(options);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Parser.Tests
         [InlineData("-f")]
         void should_get_flag_false_when_arguments_is_empty(string argument)
         {
-            var result = parser.Parse(new string[]{});
+            var result = parser.Parse(new string[] { });
 
             Assert.True(result.IsSuccess);
             Assert.False(result.GetFlagValue(argument));
