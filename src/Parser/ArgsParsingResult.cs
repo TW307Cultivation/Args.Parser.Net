@@ -26,7 +26,7 @@ namespace Parser
         bool FlagEquals(OptionBase arg, string y)
         {
             return string.Equals($"{Config.FullArgPrefix}{arg.Full}", y, StringComparison.OrdinalIgnoreCase) ||
-                string.Equals($"{Config.AbbrArgPrefix}{arg.Abbr}", y, StringComparison.OrdinalIgnoreCase);
+                   string.Equals($"{Config.AbbrArgPrefix}{arg.Abbr}", y, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

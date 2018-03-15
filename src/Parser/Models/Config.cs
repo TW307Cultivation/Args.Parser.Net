@@ -15,6 +15,5 @@ namespace Parser.Models
         internal static readonly string FullArgPrefix = "--";
 
         internal static readonly string AbbrArgPrefix = "-";
-
     }
 }

@@ -6,10 +6,9 @@ namespace Parser.Models
 {
     class FlagArgument : OptionBase
     {
-        public FlagArgument(string argument, HashSet<OptionBase> options)
+        public FlagArgument(string argument, IEnumerable<OptionBase> options)
         {
-            if (!Config.FullArgRegex.Match(argument).Success &&
-                !Config.AbbrArgRegex.Match(argument).Success)
+            if (!Config.FullArgRegex.Match(argument).Success && !Config.AbbrArgRegex.Match(argument).Success)
             {
                 throw new ParserException($"Invalid argument format: {argument}");
             }
@@ -24,9 +23,9 @@ namespace Parser.Models
                 throw new ParserException($"Invalid argument format: {argument}");
             }
 
-            this.Full = option.Full;
-            this.Abbr = option.Abbr;
-            this.Description = option.Description;
+            Full = option.Full;
+            Abbr = option.Abbr;
+            Description = option.Description;
         }
 
         public override OptionType Type => OptionType.Flag;

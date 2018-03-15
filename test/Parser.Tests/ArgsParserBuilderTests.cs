@@ -81,7 +81,7 @@ namespace Parser.Tests
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption(fullForm, 'f'));
             Assert.NotNull(exception);
-            Assert.Equal($"Invalid full form: {fullForm}", exception.Message);
+            Assert.Equal($"Invalid full form in this option: {fullForm} f", exception.Message);
         }
 
         [Theory]
@@ -94,7 +94,23 @@ namespace Parser.Tests
 
             var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption("flag", abbreviation));
             Assert.NotNull(exception);
-            Assert.Equal($"Invalid abbreviation form: {abbreviation}", exception.Message);
+            Assert.Equal($"Invalid abbreviation form in this option: flag {abbreviation}", exception.Message);
+        }
+
+        [Theory]
+        [InlineData("", "")]
+        [InlineData("a", " a")]
+        [InlineData("a\r\n", " a")]
+        [InlineData("a\r\nb\r\nc", " a b c")]
+        [InlineData("a\rb\rc", " a b c")]
+        [InlineData("a\nb\nc", " a b c")]
+        void should_replace_crlf_with_whitespace_in_description(string description, string expected)
+        {
+            var builder = new ArgsParserBuilder();
+
+            var exception = Assert.Throws<ParserException>(() => builder.AddFlagOption('*', description));
+            Assert.NotNull(exception);
+            Assert.Equal($"Invalid abbreviation form in this option: *{expected}", exception.Message);
         }
     }
 }

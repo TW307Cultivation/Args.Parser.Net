@@ -2,13 +2,28 @@
 {
     abstract class OptionBase
     {
+        string description;
+
         public abstract OptionType Type { get; }
+        public string Full { get; protected set; }
+        public char? Abbr { get; protected set; }
 
-        public string Full { get; set; }
+        protected OptionBase()
+        {
+        }
 
-        public char? Abbr { get; set; }
+        protected OptionBase(string full, char? abbr, string description = null)
+        {
+            Full = full;
+            Abbr = abbr;
+            Description = description;
+        }
 
-        public string Description { get; set; }
+        public string Description
+        {
+            get { return description?.Replace("\r\n", " ").Replace("\r", " ").Replace("\n", " "); }
+            set { description = value; }
+        }
 
         protected bool Equals(OptionBase other)
         {
@@ -31,6 +46,15 @@
             {
                 return ((Full != null ? Full.GetHashCode() : 0) * 397) ^ Abbr.GetHashCode();
             }
+        }
+
+        public override string ToString()
+        {
+            return (
+                $"{Full ?? ""}" +
+                $"{(Abbr.HasValue ? " " + Abbr : "")}" +
+                $"{(Description != null ? " " + Description : "")}"
+            ).Trim();
         }
     }
 }

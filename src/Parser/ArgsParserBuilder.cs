@@ -13,6 +13,16 @@ namespace Parser
             return AddFlagOption(null, abbrForm, null);
         }
 
+        public ArgsParserBuilder AddFlagOption(char abbrForm, string description)
+        {
+            return AddFlagOption(null, abbrForm, description);
+        }
+
+        public ArgsParserBuilder AddFlagOption(string fullForm, string description)
+        {
+            return AddFlagOption(fullForm, null, description);
+        }
+
         public ArgsParserBuilder AddFlagOption(string fullForm, char abbrForm)
         {
             return AddFlagOption(fullForm, abbrForm, null);
