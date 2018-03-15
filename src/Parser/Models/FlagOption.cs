@@ -1,4 +1,4 @@
-﻿using Parser.Tests;
+﻿using Parser.Exceptions;
 
 namespace Parser.Models
 {

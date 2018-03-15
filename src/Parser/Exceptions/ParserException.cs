@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Parser.Tests
+namespace Parser.Exceptions
 {
     public class ParserException : Exception
     {

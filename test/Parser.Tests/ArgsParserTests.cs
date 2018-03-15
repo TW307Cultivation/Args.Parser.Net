@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Parser.Exceptions;
+using Xunit;
 
 namespace Parser.Tests
 {

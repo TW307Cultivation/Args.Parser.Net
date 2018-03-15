@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using Parser.Exceptions;
 using Parser.Models;
-using Parser.Tests;
 
 namespace Parser
 {
