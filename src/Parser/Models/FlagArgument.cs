@@ -6,26 +6,37 @@ namespace Parser.Models
 {
     class FlagArgument : OptionBase
     {
+        public FlagArgument(string full, string abbr, string description = null) :
+            base(full, abbr, description)
+        {
+        }
+
         public FlagArgument(string argument, IEnumerable<OptionBase> options)
         {
-            if (!Config.FullArgRegex.Match(argument).Success && !Config.AbbrArgRegex.Match(argument).Success)
-            {
-                throw new ParserException($"Invalid argument format: {argument}");
-            }
-
-            var argOption = argument.StartsWith(Config.FullArgPrefix) ?
-                new FlagOption(argument.Substring(2), null, null) :
-                new FlagOption(null, argument[1], null);
-
+            var argOption = BuildFlagOption(argument);
             var option = options.FirstOrDefault(e => e.Equals(argOption));
             if (option == null)
             {
                 throw new ParserException($"Invalid argument format: {argument}");
             }
 
-            Full = option.Full;
-            Abbr = option.Abbr;
-            Description = option.Description;
+            Full = $"{Config.FullArgPrefix}{option.Full}";
+            Abbr = $"{Config.AbbrArgPrefix}{option.Abbr}";
+        }
+
+        static FlagOption BuildFlagOption(string argument)
+        {
+            if (Config.FullArgRegex.Match(argument).Success)
+            {
+                return new FlagOption(argument.Substring(2), null, null);
+            }
+
+            if (Config.AbbrArgRegex.Match(argument).Success)
+            {
+                return new FlagOption(null, argument[1].ToString(), null);
+            }
+
+            return null;
         }
 
         public override OptionType Type => OptionType.Flag;

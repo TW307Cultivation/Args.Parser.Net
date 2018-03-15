@@ -6,13 +6,13 @@
 
         public abstract OptionType Type { get; }
         public string Full { get; protected set; }
-        public char? Abbr { get; protected set; }
+        public string Abbr { get; protected set; }
 
         protected OptionBase()
         {
         }
 
-        protected OptionBase(string full, char? abbr, string description = null)
+        protected OptionBase(string full, string abbr, string description = null)
         {
             Full = full;
             Abbr = abbr;
@@ -28,8 +28,8 @@
         protected bool Equals(OptionBase other)
         {
             return Type == other.Type &&
-                   (Full != null && string.Equals(Full, other.Full)) ||
-                   (Abbr.HasValue && other.Abbr.HasValue && Abbr.Value == other.Abbr.Value);
+                   Full != null && string.Equals(Full, other.Full) ||
+                   Abbr != null && string.Equals(Abbr, other.Abbr);
         }
 
         public override bool Equals(object obj)
@@ -51,9 +51,9 @@
         public override string ToString()
         {
             return (
-                $"{Full ?? ""}" +
-                $"{(Abbr.HasValue ? " " + Abbr : "")}" +
-                $"{(Description != null ? " " + Description : "")}"
+                $"{(string.IsNullOrWhiteSpace(Full) ? "" : Full)}" +
+                $"{(string.IsNullOrWhiteSpace(Abbr) ? "" : " " + Abbr)}" +
+                $"{(string.IsNullOrWhiteSpace(Description) ? "" : " " + Description)}"
             ).Trim();
         }
     }

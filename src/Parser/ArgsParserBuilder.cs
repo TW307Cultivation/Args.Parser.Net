@@ -35,7 +35,7 @@ namespace Parser
                 throw new ParserException("Can only specify flag once.");
             }
 
-            options.Add(new FlagOption(fullForm, abbForm, description));
+            options.Add(new FlagOption(fullForm, abbForm.ToString(), description));
 
             return this;
         }

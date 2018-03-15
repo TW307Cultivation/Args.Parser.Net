@@ -59,10 +59,9 @@ namespace Parser.Tests
         [Theory]
         [InlineData(null, null)]
         [InlineData("", null)]
-        [InlineData("", ' ')]
-        [InlineData(" ", ' ')]
-        [InlineData(null, ' ')]
-        void should_throw_exception_when_both_full_form_and_abbreviation_form_are_empty(string fullForm, char? abbreviationForm)
+        void should_throw_exception_when_both_full_form_and_abbreviation_form_are_empty(
+            string fullForm,
+            char? abbreviationForm)
         {
             var builder = new ArgsParserBuilder();
 
@@ -88,6 +87,8 @@ namespace Parser.Tests
         [InlineData(' ', "")]
         [InlineData('*', " *")]
         [InlineData('0', " 0")]
+        [InlineData('\r', "")]
+        [InlineData('\n', "")]
         void should_throw_exception_when_abbreviation_form_is_invalid(char abbreviation, string message)
         {
             var builder = new ArgsParserBuilder();
