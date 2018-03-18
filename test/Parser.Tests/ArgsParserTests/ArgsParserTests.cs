@@ -1,7 +1,7 @@
 ﻿using Parser.Exceptions;
 using Xunit;
 
-namespace Parser.Tests
+namespace Parser.Tests.ArgsParserTests
 {
     public class ArgsParserTests
     {

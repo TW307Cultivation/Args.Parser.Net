@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgsParserBuilderTests\when_parser_builder_add_flag_option.cs" />
-    <Compile Include="ArgsParserTests.cs" />
+    <Compile Include="ArgsParserTests\ArgsParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
