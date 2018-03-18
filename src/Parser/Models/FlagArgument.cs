@@ -18,7 +18,7 @@ namespace Parser.Models
 
             if (option == null)
             {
-                throw new ParsingException(ParsingErrorCode.UndefinedOption, argument);
+                throw new ArgsParsingException(ArgsErrorCode.UndefinedOption, argument);
             }
 
             Full = $"{Config.FullArgPrefix}{option.Full}";
@@ -31,11 +31,13 @@ namespace Parser.Models
             {
                 return new FlagOption(argument.Substring(2), null, null);
             }
+
             if (Config.AbbrArgRegex.Match(argument).Success)
             {
                 return new FlagOption(null, argument[1].ToString(), null);
             }
-            throw new ParsingException(ParsingErrorCode.InvalidArgument, argument);
+
+            throw new ArgsParsingException(ArgsErrorCode.InvalidArgument, argument);
         }
 
         public override OptionType Type => OptionType.Flag;

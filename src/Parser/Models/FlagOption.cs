@@ -9,17 +9,17 @@ namespace Parser.Models
         {
             if (string.IsNullOrEmpty(Full) && string.IsNullOrEmpty(Abbr))
             {
-                throw new ParserException("Must specify flag option with full form or abbreviation form");
+                throw new ArgsParsingException(ArgsErrorCode.EmptyOption, null);
             }
 
             if (!string.IsNullOrEmpty(Full) && !Config.FullOptionRegex.Match(Full).Success)
             {
-                throw new ParserException($"Invalid full form: {Full}");
+                throw new ArgsParsingException(ArgsErrorCode.InvalidArgument, Full);
             }
 
             if (!string.IsNullOrEmpty(Abbr) && !Config.AbbrOptionRegex.Match(Abbr).Success)
             {
-                throw new ParserException($"Invalid abbreviation form: {Abbr}");
+                throw new ArgsParsingException(ArgsErrorCode.InvalidArgument, Abbr);
             }
         }
 

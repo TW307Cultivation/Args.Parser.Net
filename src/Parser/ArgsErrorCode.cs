@@ -3,7 +3,7 @@
     /// <summary>
     /// Error types.
     /// </summary>
-    public enum ParsingErrorCode
+    public enum ArgsErrorCode
     {
         /// <summary>
         /// The argument form is invalid.
@@ -20,6 +20,11 @@
         /// <summary>
         /// The argument has been specified before.
         /// </summary>
-        DuplicatedOption
+        DuplicateOption,
+
+        /// <summary>
+        /// The option's both full form and abbreviation form are empty.
+        /// </summary>
+        EmptyOption
     }
 }

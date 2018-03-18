@@ -31,13 +31,13 @@ namespace Parser
         {
             try
             {
-                foreach (var arg in args ?? new string[]{})
+                foreach (var arg in args ?? new string[] { })
                 {
                     var argument = new FlagArgument(arg, options);
 
                     if (arguments.Any(e => e.Equals(argument)))
                     {
-                        throw new ParsingException(ParsingErrorCode.DuplicatedOption, arg);
+                        throw new ArgsParsingException(ArgsErrorCode.DuplicateOption, arg);
                     }
 
                     arguments.Add(argument);
@@ -45,9 +45,9 @@ namespace Parser
 
                 return new ArgsParsingResult(arguments);
             }
-            catch (ParsingException e)
+            catch (ArgsParsingException e)
             {
-                return new ArgsParsingResult(new ParsingError
+                return new ArgsParsingResult(new ArgsParsingError
                 {
                     Code = e.Code,
                     Trigger = e.Trigger

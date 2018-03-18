@@ -74,7 +74,7 @@ namespace Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {argument});
 
             Assert.False(result.IsSuccess);
-            Assert.Equal(ParsingErrorCode.InvalidArgument, result.Error.Code);
+            Assert.Equal(ArgsErrorCode.InvalidArgument, result.Error.Code);
             Assert.Equal(argument, result.Error.Trigger);
         }
 
@@ -84,7 +84,7 @@ namespace Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"--new"});
 
             Assert.False(result.IsSuccess);
-            Assert.Equal(ParsingErrorCode.UndefinedOption, result.Error.Code);
+            Assert.Equal(ArgsErrorCode.UndefinedOption, result.Error.Code);
             Assert.Equal("--new", result.Error.Trigger);
         }
 
@@ -94,7 +94,7 @@ namespace Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"--flag", "-f"});
 
             Assert.False(result.IsSuccess);
-            Assert.Equal(ParsingErrorCode.DuplicatedOption, result.Error.Code);
+            Assert.Equal(ArgsErrorCode.DuplicateOption, result.Error.Code);
             Assert.Equal("-f", result.Error.Trigger);
         }
     }

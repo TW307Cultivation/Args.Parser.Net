@@ -27,15 +27,15 @@ namespace Parser
         /// <returns>
         /// A <see cref="ArgsParserBuilder"/> that can add option continue.
         /// </returns>
-        /// <exception cref="ParserException">
-        /// Call this method more than once, or
+        /// <exception cref="ArgsParsingException">
+        /// Add duplicate option, or
         /// the <paramref name="fullForm"/> or <paramref name="abbrForm"/> is invalid.
         /// </exception>
         public ArgsParserBuilder AddFlagOption(string fullForm, char? abbrForm, string description)
         {
             if (options.Count > 0)
             {
-                throw new ParserException("Can only specify flag option once.");
+                throw new ArgsParsingException(ArgsErrorCode.DuplicateOption, fullForm ?? abbrForm.ToString());
             }
 
             options.Add(new FlagOption(fullForm, abbrForm.ToString(), description));

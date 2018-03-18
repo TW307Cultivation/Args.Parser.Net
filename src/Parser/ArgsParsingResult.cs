@@ -18,7 +18,7 @@ namespace Parser
         /// <summary>
         /// Get details of paring error.
         /// </summary>
-        public ParsingError Error { get; set; }
+        public ArgsParsingError Error { get; set; }
 
         readonly HashSet<OptionBase> arguments;
 
@@ -28,7 +28,7 @@ namespace Parser
             this.arguments = arguments ?? new HashSet<OptionBase>();
         }
 
-        internal ArgsParsingResult(ParsingError error)
+        internal ArgsParsingResult(ArgsParsingError error)
         {
             this.IsSuccess = false;
             this.Error = error;

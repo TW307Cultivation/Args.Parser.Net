@@ -41,15 +41,14 @@
     <Compile Include="ArgsParser.cs" />
     <Compile Include="ArgsParserBuilder.cs" />
     <Compile Include="ArgsParsingResult.cs" />
-    <Compile Include="Exceptions\ParserException.cs" />
-    <Compile Include="Exceptions\ParsingException.cs" />
+    <Compile Include="Exceptions\ArgsParsingException.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\FlagArgument.cs" />
     <Compile Include="Models\FlagOption.cs" />
     <Compile Include="Models\OptionBase.cs" />
     <Compile Include="Models\OptionType.cs" />
-    <Compile Include="ParsingError.cs" />
-    <Compile Include="ParsingErrorCode.cs" />
+    <Compile Include="ArgsParsingError.cs" />
+    <Compile Include="ArgsErrorCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

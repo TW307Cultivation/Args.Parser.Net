@@ -3,12 +3,12 @@
     /// <summary>
     /// The details of parsing error.
     /// </summary>
-    public class ParsingError
+    public class ArgsParsingError
     {
         /// <summary>
         /// The error type.
         /// </summary>
-        public ParsingErrorCode Code { get; set; }
+        public ArgsErrorCode Code { get; set; }
 
         /// <summary>
         /// The argument that cause error when parse.
