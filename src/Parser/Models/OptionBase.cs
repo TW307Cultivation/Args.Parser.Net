@@ -1,12 +1,13 @@
-﻿namespace Parser.Models
+﻿using System;
+
+namespace Parser.Models
 {
     abstract class OptionBase
     {
-        string description;
-
         public abstract OptionType Type { get; }
         public string Full { get; protected set; }
         public string Abbr { get; protected set; }
+        public string Description { get; set; }
 
         protected OptionBase()
         {
@@ -19,17 +20,11 @@
             Description = description;
         }
 
-        public string Description
-        {
-            get { return description?.Replace("\r\n", " ").Replace("\r", " ").Replace("\n", " "); }
-            set { description = value; }
-        }
-
         protected bool Equals(OptionBase other)
         {
             return Type == other.Type &&
-                   Full != null && string.Equals(Full, other.Full) ||
-                   Abbr != null && string.Equals(Abbr, other.Abbr);
+                   Full != null && string.Equals(Full, other.Full, StringComparison.OrdinalIgnoreCase) ||
+                   Abbr != null && string.Equals(Abbr, other.Abbr, StringComparison.OrdinalIgnoreCase);
         }
 
         public override bool Equals(object obj)
@@ -46,15 +41,6 @@
             {
                 return ((Full != null ? Full.GetHashCode() : 0) * 397) ^ Abbr.GetHashCode();
             }
-        }
-
-        public override string ToString()
-        {
-            return (
-                $"{(string.IsNullOrWhiteSpace(Full) ? "" : Full)}" +
-                $"{(string.IsNullOrWhiteSpace(Abbr) ? "" : " " + Abbr)}" +
-                $"{(string.IsNullOrWhiteSpace(Description) ? "" : " " + Description)}"
-            ).Trim();
         }
     }
 }

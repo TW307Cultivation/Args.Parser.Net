@@ -10,20 +10,49 @@ namespace Parser.Tests.ArgsParserTests
         public ArgsParserTests()
         {
             parser = new ArgsParserBuilder()
-                .AddFlagOption("flag", 'f', "this is description")
+                .AddFlagOption("flag", 'f', "description")
                 .Build();
+        }
+
+        [Theory]
+        [InlineData("--flag", "--flag")]
+        [InlineData("--FLAG", "--flag")]
+        [InlineData("--flag", "-f")]
+        [InlineData("--flag", "-F")]
+        [InlineData("-f", "-f")]
+        [InlineData("-F", "-f")]
+        [InlineData("-f", "--flag")]
+        [InlineData("-f", "--FLAG")]
+        void should_parse_successful_and_get_flag_value(string argument, string flag)
+        {
+            var result = parser.Parse(new[] {argument});
+
+            Assert.True(result.IsSuccess);
+            Assert.True(result.GetFlagValue(flag));
+            Assert.Null(result.Error);
+        }
+
+        [Theory]
+        [InlineData("--flag")]
+        [InlineData("-f")]
+        void should_get_flag_false_when_arguments_is_null(string argument)
+        {
+            var result = parser.Parse(null);
+
+            Assert.True(result.IsSuccess);
+            Assert.False(result.GetFlagValue(argument));
         }
 
         [Theory]
         [InlineData("-flag")]
         [InlineData("---flag")]
         [InlineData("f")]
-        void should_throw_exception_when_argument_invalid(string argument)
+        void should_parse_failed_when_argument_invalid(string argument)
         {
-            var exception = Assert.Throws<ParserException>(() => parser.Parse(new[] {argument}));
+            var result = parser.Parse(new[] {argument});
 
-            Assert.NotNull(exception);
-            Assert.Equal($"Invalid argument format: {argument}", exception.Message);
+//            Assert.NotNull(exception);
+//            Assert.Equal($"Invalid argument format: {argument}", exception.Message);
         }
 
         [Fact]
@@ -45,37 +74,11 @@ namespace Parser.Tests.ArgsParserTests
         }
 
         [Theory]
-        [InlineData("--flag", "-f")]
-        [InlineData("-f", "--flag")]
-        [InlineData("--FLAG", "-f")]
-        [InlineData("-F", "--flag")]
-        [InlineData("--flag", "-F")]
-        [InlineData("-f", "--FLAG")]
-        void should_get_flag_true_when_parse_success(string argument, string flagArgument)
-        {
-            var result = parser.Parse(new[] {argument});
-
-            Assert.True(result.IsSuccess);
-            Assert.True(result.GetFlagValue(flagArgument));
-        }
-
-        [Theory]
         [InlineData("--flag")]
         [InlineData("-f")]
         void should_get_flag_false_when_arguments_is_empty(string argument)
         {
             var result = parser.Parse(new string[] { });
-
-            Assert.True(result.IsSuccess);
-            Assert.False(result.GetFlagValue(argument));
-        }
-
-        [Theory]
-        [InlineData("--flag")]
-        [InlineData("-f")]
-        void should_get_flag_false_when_arguments_is_null(string argument)
-        {
-            var result = parser.Parse(null);
 
             Assert.True(result.IsSuccess);
             Assert.False(result.GetFlagValue(argument));

@@ -21,9 +21,6 @@ namespace Parser.Models
             {
                 throw new ParserException($"Invalid abbreviation form: {Abbr}");
             }
-
-            Full = Full?.ToLower();
-            Abbr = Abbr?.ToLower();
         }
 
         public override OptionType Type => OptionType.Flag;

@@ -5,7 +5,12 @@ namespace Parser.Tests.ArgsParserBuilderTests
 {
     public class when_parser_builder_add_flag_option
     {
-        readonly ArgsParserBuilder builder = new ArgsParserBuilder();
+        readonly ArgsParserBuilder builder;
+
+        public when_parser_builder_add_flag_option()
+        {
+            builder = new ArgsParserBuilder();
+        }
 
         [Theory]
         [InlineData("flag", null, null)]

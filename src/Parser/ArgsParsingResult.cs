@@ -7,6 +7,8 @@ namespace Parser
     public class ArgsParsingResult
     {
         public bool IsSuccess { get; set; }
+        public ParsingError Error { get; set; }
+
         readonly HashSet<OptionBase> arguments;
 
         internal ArgsParsingResult(HashSet<OptionBase> arguments)
@@ -20,5 +22,9 @@ namespace Parser
             var argument = new FlagArgument(flag?.ToLower(), flag?.ToLower());
             return arguments.Any(e => e.Equals(argument));
         }
+    }
+
+    public class ParsingError
+    {
     }
 }
