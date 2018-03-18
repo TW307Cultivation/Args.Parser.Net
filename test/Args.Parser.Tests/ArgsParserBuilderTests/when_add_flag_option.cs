@@ -1,7 +1,7 @@
-﻿using Parser.Exceptions;
+﻿using Args.Parser.Exceptions;
 using Xunit;
 
-namespace Parser.Tests.ArgsParserBuilderTests
+namespace Args.Parser.Tests.ArgsParserBuilderTests
 {
     public class when_parser_builder_add_flag_option
     {
@@ -34,7 +34,7 @@ namespace Parser.Tests.ArgsParserBuilderTests
             var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption("flag", null, null));
 
             Assert.NotNull(ex);
-            Assert.Equal(ArgsErrorCode.DuplicateOption, ex.Code);
+            Assert.Equal(ArgsParsingErrorCode.DuplicateOption, ex.Code);
             Assert.Equal("flag", ex.Trigger);
             Assert.Equal("Duplicate option.", ex.Message);
         }
@@ -47,7 +47,7 @@ namespace Parser.Tests.ArgsParserBuilderTests
             var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption(fullForm, abbrForm, null));
 
             Assert.NotNull(ex);
-            Assert.Equal(ArgsErrorCode.EmptyOption, ex.Code);
+            Assert.Equal(ArgsParsingErrorCode.EmptyOption, ex.Code);
             Assert.Null(ex.Trigger);
             Assert.Equal("The option need a full form or abbreviation form.", ex.Message);
         }
@@ -61,7 +61,7 @@ namespace Parser.Tests.ArgsParserBuilderTests
             var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption(fullForm, null, null));
 
             Assert.NotNull(ex);
-            Assert.Equal(ArgsErrorCode.InvalidArgument, ex.Code);
+            Assert.Equal(ArgsParsingErrorCode.InvalidArgument, ex.Code);
             Assert.Equal(fullForm, ex.Trigger);
             Assert.Equal("This argument is invalid.", ex.Message);
         }
@@ -77,7 +77,7 @@ namespace Parser.Tests.ArgsParserBuilderTests
             var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption(null, abbrForm, null));
 
             Assert.NotNull(ex);
-            Assert.Equal(ArgsErrorCode.InvalidArgument, ex.Code);
+            Assert.Equal(ArgsParsingErrorCode.InvalidArgument, ex.Code);
             Assert.Equal(abbrForm.ToString(), ex.Trigger);
             Assert.Equal("This argument is invalid.", ex.Message);
         }

@@ -1,4 +1,4 @@
-﻿namespace Parser
+﻿namespace Args.Parser
 {
     /// <summary>
     /// The details of parsing error.
@@ -8,7 +8,7 @@
         /// <summary>
         /// The error type.
         /// </summary>
-        public ArgsErrorCode Code { get; set; }
+        public ArgsParsingErrorCode Code { get; set; }
 
         /// <summary>
         /// The argument that cause error when parse.

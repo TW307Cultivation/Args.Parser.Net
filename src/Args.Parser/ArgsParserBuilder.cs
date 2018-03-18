@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Parser.Exceptions;
-using Parser.Models;
+using Args.Parser.Exceptions;
+using Args.Parser.Models;
 
-namespace Parser
+namespace Args.Parser
 {
     /// <summary>
     /// Add option and create <see cref="ArgsParser"/>.
@@ -35,7 +35,7 @@ namespace Parser
         {
             if (options.Count > 0)
             {
-                throw new ArgsParsingException(ArgsErrorCode.DuplicateOption, fullForm ?? abbrForm.ToString());
+                throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateOption, fullForm ?? abbrForm.ToString());
             }
 
             options.Add(new FlagOption(fullForm, abbrForm.ToString(), description));

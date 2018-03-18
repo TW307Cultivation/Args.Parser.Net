@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Parser.Models
+namespace Args.Parser.Models
 {
     static class Config
     {

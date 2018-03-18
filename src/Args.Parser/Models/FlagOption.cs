@@ -1,6 +1,6 @@
-﻿using Parser.Exceptions;
+﻿using Args.Parser.Exceptions;
 
-namespace Parser.Models
+namespace Args.Parser.Models
 {
     class FlagOption : OptionBase
     {
@@ -9,17 +9,17 @@ namespace Parser.Models
         {
             if (string.IsNullOrEmpty(Full) && string.IsNullOrEmpty(Abbr))
             {
-                throw new ArgsParsingException(ArgsErrorCode.EmptyOption, null);
+                throw new ArgsParsingException(ArgsParsingErrorCode.EmptyOption, null);
             }
 
             if (!string.IsNullOrEmpty(Full) && !Config.FullOptionRegex.Match(Full).Success)
             {
-                throw new ArgsParsingException(ArgsErrorCode.InvalidArgument, Full);
+                throw new ArgsParsingException(ArgsParsingErrorCode.InvalidArgument, Full);
             }
 
             if (!string.IsNullOrEmpty(Abbr) && !Config.AbbrOptionRegex.Match(Abbr).Success)
             {
-                throw new ArgsParsingException(ArgsErrorCode.InvalidArgument, Abbr);
+                throw new ArgsParsingException(ArgsParsingErrorCode.InvalidArgument, Abbr);
             }
         }
 

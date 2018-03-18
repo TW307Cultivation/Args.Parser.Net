@@ -1,9 +1,9 @@
-﻿namespace Parser
+﻿namespace Args.Parser
 {
     /// <summary>
     /// Error types.
     /// </summary>
-    public enum ArgsErrorCode
+    public enum ArgsParsingErrorCode
     {
         /// <summary>
         /// The argument form is invalid.

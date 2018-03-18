@@ -7,8 +7,8 @@
     <ProjectGuid>{FA95C9FD-9FD3-4AF6-9B7D-4326F0DB487A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Parser</RootNamespace>
-    <AssemblyName>Parser</AssemblyName>
+    <RootNamespace>Args.Parser</RootNamespace>
+    <AssemblyName>Args.Parser</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,11 +48,11 @@
     <Compile Include="Models\OptionBase.cs" />
     <Compile Include="Models\OptionType.cs" />
     <Compile Include="ArgsParsingError.cs" />
-    <Compile Include="ArgsErrorCode.cs" />
+    <Compile Include="ArgsParsingErrorCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
     </Target>

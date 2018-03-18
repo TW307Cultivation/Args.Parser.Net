@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Parser.Exceptions;
-using Parser.Models;
+using Args.Parser.Exceptions;
+using Args.Parser.Models;
 
-namespace Parser
+namespace Args.Parser
 {
     /// <summary>
     /// Argumnets Parser.
@@ -37,7 +37,7 @@ namespace Parser
 
                     if (arguments.Any(e => e.Equals(argument)))
                     {
-                        throw new ArgsParsingException(ArgsErrorCode.DuplicateOption, arg);
+                        throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateOption, arg);
                     }
 
                     arguments.Add(argument);

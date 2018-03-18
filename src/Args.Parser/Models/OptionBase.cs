@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Parser.Models
+namespace Args.Parser.Models
 {
     abstract class OptionBase
     {
