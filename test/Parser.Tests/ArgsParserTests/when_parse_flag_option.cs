@@ -1,4 +1,4 @@
-﻿using Parser.Exceptions;
+﻿using System;
 using Xunit;
 
 namespace Parser.Tests.ArgsParserTests
@@ -54,6 +54,15 @@ namespace Parser.Tests.ArgsParserTests
             Assert.True(result.IsSuccess);
             Assert.False(result.GetFlagValue(argument));
             Assert.Null(result.Error);
+        }
+
+        [Fact]
+        void should_throw_argument_null_exception_when_flag_is_null()
+        {
+            var result = parser.Parse(new[] {"--flag"});
+
+            Assert.True(result.IsSuccess);
+            Assert.Throws<ArgumentNullException>(() => result.GetFlagValue(null));
         }
 
         [Theory]

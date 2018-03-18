@@ -1,12 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Parser.Models;
 
 namespace Parser
 {
+    /// <summary>
+    /// Parsing result.
+    /// </summary>
     public class ArgsParsingResult
     {
+        /// <summary>
+        /// Represents the parsing result whether successful.
+        /// </summary>
         public bool IsSuccess { get; set; }
+
+        /// <summary>
+        /// Get details of paring error.
+        /// </summary>
         public ParsingError Error { get; set; }
 
         readonly HashSet<OptionBase> arguments;
@@ -24,23 +35,24 @@ namespace Parser
             this.arguments = new HashSet<OptionBase>();
         }
 
+        /// <summary>
+        /// Get flag value.
+        /// </summary>
+        /// <param name="flag">
+        /// The full form or abbreviation form with prefix of the flag.
+        /// </param>
+        /// <returns>
+        /// If the flag is specified, return true, otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// The flag argument is null.
+        /// </exception>
         public bool GetFlagValue(string flag)
         {
-            var argument = new FlagArgument(flag?.ToLower(), flag?.ToLower());
+            if (flag == null) throw new ArgumentNullException(nameof(flag));
+
+            var argument = new FlagArgument(flag, flag);
             return arguments.Any(e => e.Equals(argument));
         }
-    }
-
-    public class ParsingError
-    {
-        public ParsingErrorCode Code { get; set; }
-        public string Trigger { get; set; }
-    }
-
-    public enum ParsingErrorCode
-    {
-        InvalidArgument,
-        UndefinedOption,
-        DuplicatedOption
     }
 }

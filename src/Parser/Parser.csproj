@@ -48,6 +48,8 @@
     <Compile Include="Models\FlagOption.cs" />
     <Compile Include="Models\OptionBase.cs" />
     <Compile Include="Models\OptionType.cs" />
+    <Compile Include="ParsingError.cs" />
+    <Compile Include="ParsingErrorCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
