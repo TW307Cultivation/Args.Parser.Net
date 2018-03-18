@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Parser.Exceptions;
 using Parser.Models;
 
 namespace Parser
 {
+    /// <summary>
+    /// Argumnets Parser.
+    /// </summary>
     public class ArgsParser
     {
         readonly HashSet<OptionBase> arguments = new HashSet<OptionBase>();
@@ -14,25 +19,41 @@ namespace Parser
             this.options = options ?? new HashSet<OptionBase>();
         }
 
+        /// <summary>
+        /// Parse arguments accordinating to options.
+        /// </summary>
+        /// <param name="args">
+        /// Input arguments, full form with '--' prefix, and abbreviation form with '-' prefix.
+        /// </param>
+        /// <returns>
+        /// A parsing result <see cref="ArgsParsingResult"/>.
+        /// </returns>
         public ArgsParsingResult Parse(string[] args)
         {
-            if (args == null)
+            try
             {
-                return new ArgsParsingResult(arguments);
-            }
-
-            foreach (var arg in args)
-            {
-                var argument = new FlagArgument(arg, options);
-                if (arguments.Contains(argument))
+                foreach (var arg in args ?? new string[]{})
                 {
-                    throw new ParserException($"Duplicated arguments: {string.Join(" ", args)}");
+                    var argument = new FlagArgument(arg, options);
+
+                    if (arguments.Any(e => e.Equals(argument)))
+                    {
+                        throw new ParsingException(ParsingErrorCode.DuplicatedOption, arg);
+                    }
+
+                    arguments.Add(argument);
                 }
 
-                arguments.Add(argument);
+                return new ArgsParsingResult(arguments);
             }
-
-            return new ArgsParsingResult(arguments);
+            catch (ParsingException e)
+            {
+                return new ArgsParsingResult(new ParsingError
+                {
+                    Code = e.Code,
+                    Trigger = e.Trigger
+                });
+            }
         }
     }
 }

@@ -42,6 +42,7 @@
     <Compile Include="ArgsParserBuilder.cs" />
     <Compile Include="ArgsParsingResult.cs" />
     <Compile Include="Exceptions\ParserException.cs" />
+    <Compile Include="Exceptions\ParsingException.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\FlagArgument.cs" />
     <Compile Include="Models\FlagOption.cs" />

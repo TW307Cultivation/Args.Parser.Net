@@ -17,6 +17,13 @@ namespace Parser
             this.arguments = arguments ?? new HashSet<OptionBase>();
         }
 
+        internal ArgsParsingResult(ParsingError error)
+        {
+            this.IsSuccess = false;
+            this.Error = error;
+            this.arguments = new HashSet<OptionBase>();
+        }
+
         public bool GetFlagValue(string flag)
         {
             var argument = new FlagArgument(flag?.ToLower(), flag?.ToLower());
@@ -26,5 +33,14 @@ namespace Parser
 
     public class ParsingError
     {
+        public ParsingErrorCode Code { get; set; }
+        public string Trigger { get; set; }
+    }
+
+    public enum ParsingErrorCode
+    {
+        InvalidArgument,
+        UndefinedOption,
+        DuplicatedOption
     }
 }
