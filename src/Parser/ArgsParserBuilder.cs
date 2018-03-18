@@ -4,42 +4,51 @@ using Parser.Models;
 
 namespace Parser
 {
+    /// <summary>
+    /// Add option and create <see cref="ArgsParser"/>.
+    /// </summary>
     public class ArgsParserBuilder
     {
         readonly HashSet<OptionBase> options = new HashSet<OptionBase>();
 
-        public ArgsParserBuilder AddFlagOption(char abbrForm)
-        {
-            return AddFlagOption(null, abbrForm, null);
-        }
-
-        public ArgsParserBuilder AddFlagOption(char abbrForm, string description)
-        {
-            return AddFlagOption(null, abbrForm, description);
-        }
-
-        public ArgsParserBuilder AddFlagOption(string fullForm, string description)
-        {
-            return AddFlagOption(fullForm, null, description);
-        }
-
-        public ArgsParserBuilder AddFlagOption(string fullForm, char abbrForm)
-        {
-            return AddFlagOption(fullForm, abbrForm, null);
-        }
-
-        public ArgsParserBuilder AddFlagOption(string fullForm, char? abbForm = null, string description = null)
+        /// <summary>
+        /// Add flag option with full form, abbreviation form and description,
+        /// full form and abbreviation form must specify one of them.
+        /// </summary>
+        /// <param name="fullForm">
+        /// The option's full form.
+        /// </param>
+        /// <param name="abbrForm">
+        /// The option's abbreviation form.
+        /// </param>
+        /// <param name="description">
+        /// The option's description.
+        /// </param>
+        /// <returns>
+        /// A <see cref="ArgsParserBuilder"/> that can add option continue.
+        /// </returns>
+        /// <exception cref="ParserException">
+        /// Call this method more than once, or
+        /// the <paramref name="fullForm"/> or <paramref name="abbrForm"/> is invalid.
+        /// </exception>
+        public ArgsParserBuilder AddFlagOption(string fullForm, char? abbrForm, string description)
         {
             if (options.Count > 0)
             {
-                throw new ParserException("Can only specify flag once.");
+                throw new ParserException("Can only specify flag option once.");
             }
 
-            options.Add(new FlagOption(fullForm, abbForm.ToString(), description));
+            options.Add(new FlagOption(fullForm, abbrForm.ToString(), description));
 
             return this;
         }
 
+        /// <summary>
+        /// Build an <see cref="ArgsParser"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="ArgsParser"/> that holds the options added before.
+        /// </returns>
         public ArgsParser Build()
         {
             return new ArgsParser(options);
