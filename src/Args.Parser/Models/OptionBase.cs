@@ -39,7 +39,7 @@ namespace Args.Parser.Models
         {
             unchecked
             {
-                return ((Full != null ? Full.GetHashCode() : 0) * 397) ^ Abbr.GetHashCode();
+                return ((Full != null ? Full.GetHashCode() : 0) * 397) ^ (Abbr != null ? Abbr.GetHashCode() : 0);
             }
         }
     }

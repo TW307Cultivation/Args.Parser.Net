@@ -1,4 +1,4 @@
-﻿using Args.Parser.Exceptions;
+﻿using System;
 
 namespace Args.Parser.Models
 {
@@ -7,19 +7,19 @@ namespace Args.Parser.Models
         public FlagOption(string full, string abbr, string description) :
             base(full, abbr, description)
         {
-            if (string.IsNullOrEmpty(Full) && string.IsNullOrEmpty(Abbr))
+            if (Full == null && Abbr == null)
             {
-                throw new ArgsParsingException(ArgsParsingErrorCode.EmptyOption, null);
+                throw new ArgumentException("The option need a full form or abbreviation form.");
             }
 
-            if (!string.IsNullOrEmpty(Full) && !Config.FullOptionRegex.Match(Full).Success)
+            if (Full != null && !Config.FullOptionRegex.Match(Full).Success)
             {
-                throw new ArgsParsingException(ArgsParsingErrorCode.InvalidArgument, Full);
+                throw new ArgumentException("This full form argument is invalid.");
             }
 
-            if (!string.IsNullOrEmpty(Abbr) && !Config.AbbrOptionRegex.Match(Abbr).Success)
+            if (Abbr != null && !Config.AbbrOptionRegex.Match(Abbr).Success)
             {
-                throw new ArgsParsingException(ArgsParsingErrorCode.InvalidArgument, Abbr);
+                throw new ArgumentException("This abbreviation form argument is invalid.");
             }
         }
 

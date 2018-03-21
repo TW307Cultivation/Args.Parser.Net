@@ -1,4 +1,4 @@
-﻿using Args.Parser.Exceptions;
+﻿using System;
 using Xunit;
 
 namespace Args.Parser.Tests.ArgsParserBuilderTests
@@ -12,74 +12,49 @@ namespace Args.Parser.Tests.ArgsParserBuilderTests
             builder = new ArgsParserBuilder();
         }
 
-        [Theory]
-        [InlineData("flag", null, null)]
-        [InlineData(null, 'f', null)]
-        [InlineData("flag", 'f', null)]
-        [InlineData("flag", 'f', "description")]
-        void should_add_flag_option(string fullForm, char? abbrForm, string description)
-        {
-            var parser = builder
-                .AddFlagOption(fullForm, abbrForm, description)
-                .Build();
-
-            Assert.NotNull(parser);
-        }
-
         [Fact]
-        void should_can_not_add_flag_option_more_than_once()
+        void should_throw_argument_exception_when_both_full_and_abbr_form_are_null()
         {
-            builder.AddFlagOption("flag", null, null);
-
-            var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption("flag", null, null));
-
-            Assert.NotNull(ex);
-            Assert.Equal(ArgsParsingErrorCode.DuplicateOption, ex.Code);
-            Assert.Equal("flag", ex.Trigger);
-            Assert.Equal("Duplicate option.", ex.Message);
-        }
-
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData("", null)]
-        void should_throw_error_when_both_full_form_and_abbr_form_are_empty(string fullForm, char? abbrForm)
-        {
-            var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption(fullForm, abbrForm, null));
-
-            Assert.NotNull(ex);
-            Assert.Equal(ArgsParsingErrorCode.EmptyOption, ex.Code);
-            Assert.Null(ex.Trigger);
-            Assert.Equal("The option need a full form or abbreviation form.", ex.Message);
+            Assert.Throws<ArgumentException>(() => builder.AddFlagOption(null, null, null));
         }
 
         [Theory]
         [InlineData(" ")]
         [InlineData("abc*&")]
         [InlineData("-abc")]
-        void should_throw_error_when_full_form_is_invalid(string fullForm)
+        void should_throw_argument_exception_when_full_form_is_invalid(string fullForm)
         {
-            var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption(fullForm, null, null));
-
-            Assert.NotNull(ex);
-            Assert.Equal(ArgsParsingErrorCode.InvalidArgument, ex.Code);
-            Assert.Equal(fullForm, ex.Trigger);
-            Assert.Equal("This argument is invalid.", ex.Message);
+            Assert.Throws<ArgumentException>(() => builder.AddFlagOption(fullForm, null, null));
         }
 
         [Theory]
         [InlineData(' ')]
         [InlineData('*')]
         [InlineData('0')]
-        [InlineData('\r')]
-        [InlineData('\n')]
-        void should_throw_error_when_abbr_form_is_invalid(char abbrForm)
+        void should_throw_argument_exception_when_abbr_form_is_invalid(char abbrForm)
         {
-            var ex = Assert.Throws<ArgsParsingException>(() => builder.AddFlagOption(null, abbrForm, null));
+            Assert.Throws<ArgumentException>(() => builder.AddFlagOption(null, abbrForm, null));
+        }
 
-            Assert.NotNull(ex);
-            Assert.Equal(ArgsParsingErrorCode.InvalidArgument, ex.Code);
-            Assert.Equal(abbrForm.ToString(), ex.Trigger);
-            Assert.Equal("This argument is invalid.", ex.Message);
+        [Theory]
+        [InlineData("flag", 'f')]
+        [InlineData("flag", null)]
+        [InlineData(null, 'f')]
+        void should_throw_argument_exception_when_add_duplicate_flag_option(string fullForm, char? abbrForm)
+        {
+            builder.AddFlagOption("flag", 'f', null);
+
+            Assert.Throws<ArgumentException>(() => builder.AddFlagOption(fullForm, abbrForm, null));
+        }
+
+        [Theory]
+        [InlineData("flag", null, null)]
+        [InlineData(null, 'f', null)]
+        [InlineData("flag", 'f', null)]
+        [InlineData("flag", 'f', "description")]
+        void should_build_a_parser_successfully_when_arguments_are_valid(string fullForm, char? abbrForm, string description)
+        {
+            Assert.Null(Record.Exception(() => builder.AddFlagOption(fullForm, abbrForm, description).Build()));
         }
     }
 }

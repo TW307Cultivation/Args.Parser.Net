@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Args.Parser.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Args.Parser.Models;
 
 namespace Args.Parser
@@ -25,21 +26,21 @@ namespace Args.Parser
         /// The option's description.
         /// </param>
         /// <returns>
-        /// A <see cref="ArgsParserBuilder"/> that can add option continue.
+        /// A <see cref="ArgsParserBuilder"/> that can add option continuously.
         /// </returns>
-        /// <exception cref="ArgsParsingException">
+        /// <exception cref="ArgumentException">
         /// Add duplicate option, or
         /// the <paramref name="fullForm"/> or <paramref name="abbrForm"/> is invalid.
         /// </exception>
         public ArgsParserBuilder AddFlagOption(string fullForm, char? abbrForm, string description)
         {
-            if (options.Count > 0)
+            var option = new FlagOption(fullForm, abbrForm?.ToString(), description);
+            if (options.Any(e => e.Equals(option)))
             {
-                throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateOption, fullForm ?? abbrForm.ToString());
+                throw new ArgumentException("Duplicate option.");
             }
 
-            options.Add(new FlagOption(fullForm, abbrForm.ToString(), description));
-
+            options.Add(option);
             return this;
         }
 
