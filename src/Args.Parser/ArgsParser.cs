@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Args.Parser.Exceptions;
 using Args.Parser.Models;
@@ -29,21 +30,29 @@ namespace Args.Parser
         /// </returns>
         public ArgsParsingResult Parse(string[] args)
         {
+            if (args == null)
+            {
+                throw new ArgumentNullException(nameof(args));
+            }
+            if (args.Any(e => e == null))
+            {
+                throw new ArgumentException(nameof(args));
+            }
+
             try
             {
-                foreach (var arg in args ?? new string[] { })
+                foreach (var arg in args)
                 {
                     var argument = new FlagArgument(arg, options);
-
                     if (arguments.Any(e => e.Equals(argument)))
                     {
-                        throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateOption, arg);
+                        throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateFlagsInArgs, arg);
                     }
 
                     arguments.Add(argument);
                 }
 
-                return new ArgsParsingResult(arguments);
+                return new ArgsParsingResult(arguments, options);
             }
             catch (ArgsParsingException e)
             {

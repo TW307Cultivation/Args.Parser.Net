@@ -46,10 +46,10 @@ namespace Args.Parser.Exceptions
             new ReadOnlyDictionary<ArgsParsingErrorCode, string>(
                 new Dictionary<ArgsParsingErrorCode, string>
                 {
-                    {ArgsParsingErrorCode.InvalidArgument, "This argument is invalid."},
+                    {ArgsParsingErrorCode.FreeValueNotSupported, "Free value not support."},
                     {ArgsParsingErrorCode.EmptyOption, "The option need a full form or abbreviation form."},
                     {ArgsParsingErrorCode.UndefinedOption, "Undefined option."},
-                    {ArgsParsingErrorCode.DuplicateOption, "Duplicate option."},
+                    {ArgsParsingErrorCode.DuplicateFlagsInArgs, "Duplicate option."},
                 });
     }
 }

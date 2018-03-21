@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Args.Parser.Exceptions;
 using Args.Parser.Models;
 
 namespace Args.Parser
@@ -21,18 +22,19 @@ namespace Args.Parser
         public ArgsParsingError Error { get; set; }
 
         readonly HashSet<OptionBase> arguments;
+        readonly HashSet<OptionBase> options;
 
-        internal ArgsParsingResult(HashSet<OptionBase> arguments)
+        internal ArgsParsingResult(HashSet<OptionBase> arguments, HashSet<OptionBase> options)
         {
             this.IsSuccess = true;
             this.arguments = arguments ?? new HashSet<OptionBase>();
+            this.options = options ?? new HashSet<OptionBase>();
         }
 
         internal ArgsParsingResult(ArgsParsingError error)
         {
             this.IsSuccess = false;
             this.Error = error;
-            this.arguments = new HashSet<OptionBase>();
         }
 
         /// <summary>
@@ -50,9 +52,17 @@ namespace Args.Parser
         public bool GetFlagValue(string flag)
         {
             if (flag == null) throw new ArgumentNullException(nameof(flag));
+            if (!IsSuccess) throw new InvalidOperationException();
 
-            var argument = new FlagArgument(flag, flag);
-            return arguments.Any(e => e.Equals(argument));
+            try
+            {
+                var argument = new FlagArgument(flag, options);
+                return arguments.Any(e => e.Equals(argument));
+            }
+            catch (ArgsParsingException e)
+            {
+                throw new ArgumentException(e.Message);
+            }
         }
     }
 }

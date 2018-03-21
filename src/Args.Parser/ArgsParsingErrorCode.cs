@@ -6,11 +6,9 @@
     public enum ArgsParsingErrorCode
     {
         /// <summary>
-        /// The argument form is invalid.
-        /// The full form argument need a prefix "--",
-        /// and the abbreviation form need "-".
+        /// The argument is invalid or undefined.
         /// </summary>
-        InvalidArgument,
+        FreeValueNotSupported,
 
         /// <summary>
         /// The argument is not defined in options.
@@ -20,7 +18,7 @@
         /// <summary>
         /// The argument has been specified before.
         /// </summary>
-        DuplicateOption,
+        DuplicateFlagsInArgs,
 
         /// <summary>
         /// The option's both full form and abbreviation form are empty.
