@@ -41,13 +41,16 @@ namespace Args.Parser
         /// Get flag value.
         /// </summary>
         /// <param name="flag">
-        /// The full form or abbreviation form with prefix of the flag.
+        /// The full form or abbreviation form flag.
         /// </param>
         /// <returns>
         /// If the flag is specified, return true, otherwise false.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// The flag argument is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The flag argument is invalid or undefined.
         /// </exception>
         public bool GetFlagValue(string flag)
         {

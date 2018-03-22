@@ -23,11 +23,17 @@ namespace Args.Parser
         /// Parse arguments accordinating to options.
         /// </summary>
         /// <param name="args">
-        /// Input arguments, full form with '--' prefix, and abbreviation form with '-' prefix.
+        /// Input arguments, full form or abbreviation form.
         /// </param>
         /// <returns>
         /// A parsing result <see cref="ArgsParsingResult"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// The args is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The args has null value.
+        /// </exception>
         public ArgsParsingResult Parse(string[] args)
         {
             if (args == null)
