@@ -3,11 +3,11 @@ using Xunit;
 
 namespace Args.Parser.Tests.ArgsParserBuilderTests
 {
-    public class when_parser_builder_add_flag_option
+    public class when_add_flag_option
     {
         readonly ArgsParserBuilder builder;
 
-        public when_parser_builder_add_flag_option()
+        public when_add_flag_option()
         {
             builder = new ArgsParserBuilder();
         }
@@ -40,7 +40,7 @@ namespace Args.Parser.Tests.ArgsParserBuilderTests
         [InlineData("flag", 'f')]
         [InlineData("flag", null)]
         [InlineData(null, 'f')]
-        void should_throw_argument_exception_when_add_duplicate_flag_option(string fullForm, char? abbrForm)
+        void should_throw_argument_exception_when_add_duplicate_option(string fullForm, char? abbrForm)
         {
             builder.AddFlagOption("flag", 'f', null);
 
@@ -55,6 +55,13 @@ namespace Args.Parser.Tests.ArgsParserBuilderTests
         void should_build_a_parser_successfully_when_arguments_are_valid(string fullForm, char? abbrForm, string description)
         {
             Assert.Null(Record.Exception(() => builder.AddFlagOption(fullForm, abbrForm, description).Build()));
+        }
+
+        [Fact]
+        void should_can_add_multiple_options()
+        {
+            builder.AddFlagOption("flag1", null, null);
+            Assert.Null(Record.Exception(() => builder.AddFlagOption("flag2", null, null).Build()));
         }
     }
 }

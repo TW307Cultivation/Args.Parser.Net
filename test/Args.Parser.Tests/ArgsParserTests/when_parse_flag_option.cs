@@ -11,6 +11,7 @@ namespace Args.Parser.Tests.ArgsParserTests
         {
             parser = new ArgsParserBuilder()
                 .AddFlagOption("flag", 'f', "description")
+                .AddFlagOption("remove", 'r', "description")
                 .Build();
         }
 
@@ -96,6 +97,17 @@ namespace Args.Parser.Tests.ArgsParserTests
 
             Assert.True(result.IsSuccess);
             Assert.True(result.GetFlagValue(flag));
+            Assert.Null(result.Error);
+        }
+
+        [Fact]
+        void should_can_parse_multiple_args()
+        {
+            var result = parser.Parse(new[] {"--flag", "-r"});
+
+            Assert.True(result.IsSuccess);
+            Assert.True(result.GetFlagValue("-f"));
+            Assert.True(result.GetFlagValue("--remove"));
             Assert.Null(result.Error);
         }
     }
