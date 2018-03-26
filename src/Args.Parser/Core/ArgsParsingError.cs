@@ -8,11 +8,17 @@
         /// <summary>
         /// The error type.
         /// </summary>
-        public ArgsParsingErrorCode Code { get; set; }
+        public ArgsParsingErrorCode Code { get; }
 
         /// <summary>
         /// The argument that cause error when parse.
         /// </summary>
-        public string Trigger { get; set; }
+        public string Trigger { get; }
+
+        internal ArgsParsingError(ArgsParsingErrorCode code, string trigger)
+        {
+            Code = code;
+            Trigger = trigger;
+        }
     }
 }

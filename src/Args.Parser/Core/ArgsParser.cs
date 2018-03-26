@@ -62,11 +62,7 @@ namespace Args.Parser.Core
             }
             catch (ArgsParsingException e)
             {
-                return new ArgsParsingResult(new ArgsParsingError
-                {
-                    Code = e.Code,
-                    Trigger = e.Trigger
-                });
+                return new ArgsParsingResult(new ArgsParsingError(e.Code, e.Trigger));
             }
         }
     }

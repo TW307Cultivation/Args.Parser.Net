@@ -14,12 +14,12 @@ namespace Args.Parser.Core
         /// <summary>
         /// Represents the parsing result whether successful.
         /// </summary>
-        public bool IsSuccess { get; set; }
+        public bool IsSuccess { get; }
 
         /// <summary>
         /// Get details of paring error.
         /// </summary>
-        public ArgsParsingError Error { get; set; }
+        public ArgsParsingError Error { get; }
 
         readonly HashSet<OptionBase> arguments;
         readonly HashSet<OptionBase> options;
