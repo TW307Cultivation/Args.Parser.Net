@@ -4,7 +4,7 @@ using System.Linq;
 using Args.Parser.Exceptions;
 using Args.Parser.Models;
 
-namespace Args.Parser
+namespace Args.Parser.Core
 {
     /// <summary>
     /// Argumnets Parser.

@@ -1,4 +1,4 @@
-﻿namespace Args.Parser
+﻿namespace Args.Parser.Core
 {
     /// <summary>
     /// The details of parsing error.

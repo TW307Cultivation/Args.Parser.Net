@@ -1,4 +1,5 @@
 ﻿using System;
+using Args.Parser.Core;
 using Xunit;
 
 namespace Args.Parser.Tests.ArgsParserTests

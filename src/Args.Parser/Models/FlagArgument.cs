@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Args.Parser.Core;
 using Args.Parser.Exceptions;
 
 namespace Args.Parser.Models

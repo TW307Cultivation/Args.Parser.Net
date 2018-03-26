@@ -40,17 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgsParser.cs" />
-    <Compile Include="ArgsParserBuilder.cs" />
-    <Compile Include="ArgsParsingResult.cs" />
+    <Compile Include="Core\ArgsParser.cs" />
+    <Compile Include="Core\ArgsParserBuilder.cs" />
+    <Compile Include="Core\ArgsParsingError.cs" />
+    <Compile Include="Core\ArgsParsingErrorCode.cs" />
+    <Compile Include="Core\ArgsParsingResult.cs" />
     <Compile Include="Exceptions\ArgsParsingException.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\FlagArgument.cs" />
     <Compile Include="Models\FlagOption.cs" />
     <Compile Include="Models\OptionBase.cs" />
     <Compile Include="Models\OptionType.cs" />
-    <Compile Include="ArgsParsingError.cs" />
-    <Compile Include="ArgsParsingErrorCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

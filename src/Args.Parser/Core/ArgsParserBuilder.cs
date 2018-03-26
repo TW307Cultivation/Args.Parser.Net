@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Args.Parser.Models;
 
-namespace Args.Parser
+namespace Args.Parser.Core
 {
     /// <summary>
     /// Add option and create <see cref="ArgsParser"/>.
