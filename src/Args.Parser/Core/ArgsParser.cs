@@ -49,13 +49,14 @@ namespace Args.Parser.Core
             {
                 foreach (var arg in args)
                 {
-                    var argument = new FlagArgument(arg, options);
-                    if (arguments.Any(e => e.Equals(argument)))
+                    BuildArguments(arg).ForEach(e =>
                     {
-                        throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateFlagsInArgs, arg);
-                    }
-
-                    arguments.Add(argument);
+                        if (arguments.Any(a => a.Equals(e)))
+                        {
+                            throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateFlagsInArgs, arg);
+                        }
+                        arguments.Add(e);
+                    });
                 }
 
                 return new ArgsParsingResult(arguments, options);
@@ -64,6 +65,28 @@ namespace Args.Parser.Core
             {
                 return new ArgsParsingResult(new ArgsParsingError(e.Code, e.Trigger));
             }
+        }
+
+        List<FlagArgument> BuildArguments(string arg)
+        {
+            if (Config.FullArgRegex.Match(arg).Success)
+            {
+                return new List<FlagArgument>() {new FlagArgument(arg, options)};
+            }
+            if (Config.AbbrArgRegex.Match(arg).Success)
+            {
+                try
+                {
+                    return arg.Substring(1)
+                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", options))
+                        .ToList();
+                }
+                catch (ArgsParsingException e)
+                {
+                    throw new ArgsParsingException(e.Code, arg);
+                }
+            }
+            throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
         }
     }
 }

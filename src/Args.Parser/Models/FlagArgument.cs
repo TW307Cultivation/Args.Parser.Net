@@ -7,11 +7,6 @@ namespace Args.Parser.Models
 {
     class FlagArgument : OptionBase
     {
-        public FlagArgument(string full, string abbr, string description = null) :
-            base(full, abbr, description)
-        {
-        }
-
         public FlagArgument(string argument, IEnumerable<OptionBase> options)
         {
             var argOption = BuildFlagOption(argument);
@@ -28,13 +23,13 @@ namespace Args.Parser.Models
 
         static FlagOption BuildFlagOption(string argument)
         {
-            if (Config.FullArgRegex.Match(argument).Success)
+            if (argument.StartsWith(Config.FullArgPrefix))
             {
                 return new FlagOption(argument.Substring(2), null, null);
             }
-            if (Config.AbbrArgRegex.Match(argument).Success)
+            if (argument.StartsWith(Config.AbbrArgPrefix))
             {
-                return new FlagOption(null, argument[1].ToString(), null);
+                return new FlagOption(null, argument.Substring(1), null);
             }
             throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, argument);
         }

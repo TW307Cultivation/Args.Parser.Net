@@ -30,7 +30,6 @@ namespace Args.Parser.Tests.ArgsParserTests
 
         [Theory]
         [InlineData("what_is_this")]
-        [InlineData("-rf")]
         [InlineData("--not-defined-flags")]
         [InlineData("-a")]
         void should_parse_failed_when_arg_is_invalid_or_undefined(string arg)
