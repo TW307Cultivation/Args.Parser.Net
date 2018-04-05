@@ -52,8 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgsParserBuilderTests\when_add_flag_option.cs" />
-    <Compile Include="ArgsParserTests\when_parse_flag_option.cs" />
+    <Compile Include="ArgsParserBuilderTests\when_add_flags.cs" />
+    <Compile Include="ArgsParserTests\when_parse_flags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

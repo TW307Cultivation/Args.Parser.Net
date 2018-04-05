@@ -4,11 +4,11 @@ using Xunit;
 
 namespace Args.Parser.Tests.ArgsParserTests
 {
-    public class when_parse_flag_option
+    public class when_parse_flags
     {
         readonly ArgsParser parser;
 
-        public when_parse_flag_option()
+        public when_parse_flags()
         {
             parser = new ArgsParserBuilder()
                 .AddFlagOption("flag", 'f', "description")
