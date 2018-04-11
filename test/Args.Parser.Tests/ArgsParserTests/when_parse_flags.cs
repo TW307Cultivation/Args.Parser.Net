@@ -11,8 +11,8 @@ namespace Args.Parser.Tests.ArgsParserTests
         public when_parse_flags()
         {
             parser = new ArgsParserBuilder()
-                .AddFlagOption("flag", 'f', "description")
-                .AddFlagOption("remove", 'r', "description")
+                .AddFlagOption("flag", 'f', null)
+                .AddFlagOption("remove", 'r', null)
                 .Build();
         }
 

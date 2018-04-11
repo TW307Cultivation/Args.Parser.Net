@@ -10,8 +10,9 @@ namespace Args.Parser.Tests.ArgsParserTests
         public when_parse_combined_flags()
         {
             parser = new ArgsParserBuilder()
-                .AddFlagOption("flag", 'f', "description")
-                .AddFlagOption("remove", 'r', "description")
+                .AddFlagOption("flag", 'f', null)
+                .AddFlagOption("remove", 'r', null)
+                .AddFlagOption("message", 'm', null)
                 .Build();
         }
 
@@ -43,6 +44,8 @@ namespace Args.Parser.Tests.ArgsParserTests
             Assert.True(result.IsSuccess);
             Assert.True(result.GetFlagValue("--flag"));
             Assert.True(result.GetFlagValue("--remove"));
+            Assert.False(result.GetFlagValue("--message"));
+            Assert.False(result.GetFlagValue("-m"));
             Assert.Null(result.Error);
         }
     }
