@@ -6,27 +6,17 @@ using Args.Parser.Models;
 namespace Args.Parser.Core
 {
     /// <summary>
-    /// Define commands and create <see cref="ArgsParser"/>.
+    /// Add flags to command.
     /// </summary>
-    public class ArgsParserBuilder
+    public class CommandBuilder
     {
+        readonly ArgsParserBuilder parserBuilder;
+
         readonly HashSet<OptionBase> options = new HashSet<OptionBase>();
 
-        CommandBuilder commandBuilder;
-
-        /// <summary>
-        /// Begin defining default command.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="CommandBuilder"/> to add flags.
-        /// </returns>
-        public CommandBuilder BeginDefaultCommand()
+        internal CommandBuilder(ArgsParserBuilder parserBuilder)
         {
-            if (commandBuilder != null) throw new InvalidOperationException();
-
-            commandBuilder = new CommandBuilder(this);
-
-            return commandBuilder;
+            this.parserBuilder = parserBuilder;
         }
 
         /// <summary>
@@ -49,7 +39,7 @@ namespace Args.Parser.Core
         /// Add duplicate option, or
         /// the <paramref name="fullForm"/> or <paramref name="abbrForm"/> is invalid.
         /// </exception>
-        public ArgsParserBuilder AddFlagOption(string fullForm, char? abbrForm, string description)
+        public CommandBuilder AddFlagOption(string fullForm, char? abbrForm, string description)
         {
             var option = new FlagOption(fullForm, abbrForm?.ToString(), description);
             if (options.Any(e => e.Equals(option)))
@@ -62,14 +52,14 @@ namespace Args.Parser.Core
         }
 
         /// <summary>
-        /// Build an <see cref="ArgsParser"/>.
+        /// End defining command and add the command to <see cref="ArgsParserBuilder"/>.
         /// </summary>
         /// <returns>
-        /// A <see cref="ArgsParser"/> that holds the options added before.
+        /// A <see cref="ArgsParserBuilder"/> that holds the commands added before.
         /// </returns>
-        public ArgsParser Build()
+        public ArgsParserBuilder EndCommand()
         {
-            return new ArgsParser(options);
+            return parserBuilder;
         }
     }
 }

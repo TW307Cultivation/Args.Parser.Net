@@ -45,6 +45,7 @@
     <Compile Include="Core\ArgsParsingError.cs" />
     <Compile Include="Core\ArgsParsingErrorCode.cs" />
     <Compile Include="Core\ArgsParsingResult.cs" />
+    <Compile Include="Core\CommandBuilder.cs" />
     <Compile Include="Exceptions\ArgsParsingException.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\FlagArgument.cs" />
