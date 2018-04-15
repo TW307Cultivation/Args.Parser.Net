@@ -12,11 +12,11 @@ namespace Args.Parser.Core
     public class ArgsParser
     {
         readonly HashSet<OptionBase> arguments = new HashSet<OptionBase>();
-        readonly HashSet<OptionBase> options;
+        readonly Command command;
 
-        internal ArgsParser(HashSet<OptionBase> options)
+        internal ArgsParser(Command command)
         {
-            this.options = options ?? new HashSet<OptionBase>();
+            this.command = command;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Args.Parser.Core
                     });
                 }
 
-                return new ArgsParsingResult(arguments, options);
+                return new ArgsParsingResult(arguments, command);
             }
             catch (ArgsParsingException e)
             {
@@ -71,14 +71,14 @@ namespace Args.Parser.Core
         {
             if (Config.FullArgRegex.Match(arg).Success)
             {
-                return new List<FlagArgument>() {new FlagArgument(arg, options)};
+                return new List<FlagArgument>() {new FlagArgument(arg, command)};
             }
             if (Config.AbbrArgRegex.Match(arg).Success)
             {
                 try
                 {
                     return arg.Substring(1)
-                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", options))
+                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", command))
                         .ToList();
                 }
                 catch (ArgsParsingException e)

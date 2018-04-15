@@ -10,9 +10,11 @@ namespace Args.Parser.Tests.ArgsParserTests
         public when_parse_combined_flags()
         {
             parser = new ArgsParserBuilder()
+                .BeginDefaultCommand()
                 .AddFlagOption("flag", 'f', null)
                 .AddFlagOption("remove", 'r', null)
                 .AddFlagOption("message", 'm', null)
+                .EndCommand()
                 .Build();
         }
 

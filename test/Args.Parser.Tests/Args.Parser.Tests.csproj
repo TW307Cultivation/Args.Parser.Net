@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgsParserBuilderTests\when_add_commands.cs" />
-    <Compile Include="ArgsParserBuilderTests\when_add_flags.cs" />
     <Compile Include="ArgsParserTests\when_parse_combined_flags.cs" />
     <Compile Include="ArgsParserTests\when_parse_flags.cs" />
     <Compile Include="CommandBuilderTests\when_add_flags.cs" />

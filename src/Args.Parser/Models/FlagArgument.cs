@@ -7,10 +7,10 @@ namespace Args.Parser.Models
 {
     class FlagArgument : OptionBase
     {
-        public FlagArgument(string argument, IEnumerable<OptionBase> options)
+        public FlagArgument(string argument, Command command)
         {
             var argOption = BuildFlagOption(argument);
-            var option = options.FirstOrDefault(e => e.Equals(argOption));
+            var option = command.GetOption(argOption);
 
             if (option == null)
             {

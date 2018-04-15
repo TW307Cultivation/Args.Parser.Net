@@ -14,11 +14,19 @@ namespace Args.Parser.Tests.ArgsParserBuilderTests
         }
 
         [Fact]
-        void should_throw_InvalidOperationException_when_add_multiple_default_command()
+        void should_throw_InvalidOperationException_when_end_multiple_default_command()
         {
-            builder.BeginDefaultCommand();
+            builder.BeginDefaultCommand().EndCommand();
 
-            Assert.Throws<InvalidOperationException>(() => builder.BeginDefaultCommand());
+            Assert.Throws<InvalidOperationException>(() => builder.BeginDefaultCommand().EndCommand());
+        }
+
+        [Fact]
+        void should_build_a_parser_successfully_after_ending_command()
+        {
+            builder.BeginDefaultCommand().EndCommand();
+
+            Assert.Null(Record.Exception(() => builder.Build()));
         }
     }
 }

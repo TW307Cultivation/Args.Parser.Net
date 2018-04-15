@@ -59,7 +59,7 @@ namespace Args.Parser.Core
         /// </returns>
         public ArgsParserBuilder EndCommand()
         {
-            return parserBuilder;
+            return parserBuilder.RegisterCommand(new Command(options));
         }
     }
 }

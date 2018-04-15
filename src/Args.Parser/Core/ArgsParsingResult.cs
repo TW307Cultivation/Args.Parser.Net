@@ -22,13 +22,13 @@ namespace Args.Parser.Core
         public ArgsParsingError Error { get; }
 
         readonly HashSet<OptionBase> arguments;
-        readonly HashSet<OptionBase> options;
+        readonly Command command;
 
-        internal ArgsParsingResult(HashSet<OptionBase> arguments, HashSet<OptionBase> options)
+        internal ArgsParsingResult(HashSet<OptionBase> arguments, Command command)
         {
             this.IsSuccess = true;
             this.arguments = arguments ?? new HashSet<OptionBase>();
-            this.options = options ?? new HashSet<OptionBase>();
+            this.command = command;
         }
 
         internal ArgsParsingResult(ArgsParsingError error)
@@ -59,7 +59,7 @@ namespace Args.Parser.Core
 
             try
             {
-                var argument = new FlagArgument(flag, options);
+                var argument = new FlagArgument(flag, command);
                 return arguments.Any(e => e.Equals(argument));
             }
             catch (ArgsParsingException e)
