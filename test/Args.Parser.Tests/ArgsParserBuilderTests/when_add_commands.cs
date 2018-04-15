@@ -17,6 +17,7 @@ namespace Args.Parser.Tests.ArgsParserBuilderTests
         void should_throw_InvalidOperationException_when_add_multiple_default_command()
         {
             builder.BeginDefaultCommand();
+
             Assert.Throws<InvalidOperationException>(() => builder.BeginDefaultCommand());
         }
     }
