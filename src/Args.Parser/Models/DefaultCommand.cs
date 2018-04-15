@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Args.Parser.Core;
 
 namespace Args.Parser.Models
 {
-    class Command
+    class DefaultCommand : ICommandDefinitionMetadata
     {
         readonly HashSet<OptionBase> options;
 
-        public Command(HashSet<OptionBase> options)
+        public DefaultCommand(HashSet<OptionBase> options)
         {
             this.options = options ?? new HashSet<OptionBase>();
         }
@@ -16,5 +17,7 @@ namespace Args.Parser.Models
         {
             return options.FirstOrDefault(e => e.Equals(argOption));
         }
+
+        public string Symbol => null;
     }
 }

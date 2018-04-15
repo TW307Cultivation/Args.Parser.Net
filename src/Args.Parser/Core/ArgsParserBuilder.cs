@@ -9,7 +9,7 @@ namespace Args.Parser.Core
     /// </summary>
     public class ArgsParserBuilder
     {
-        Command command;
+        ICommandDefinitionMetadata command;
 
         /// <summary>
         /// Begin defining default command.
@@ -33,7 +33,7 @@ namespace Args.Parser.Core
             return new ArgsParser(command);
         }
 
-        internal ArgsParserBuilder RegisterCommand(Command command)
+        internal ArgsParserBuilder RegisterCommand(ICommandDefinitionMetadata command)
         {
             if (this.command != null) throw new InvalidOperationException();
 

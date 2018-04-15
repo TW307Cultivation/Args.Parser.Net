@@ -17,24 +17,29 @@ namespace Args.Parser.Core
         public bool IsSuccess { get; }
 
         /// <summary>
+        /// Get the definition metadata of <see cref="Command"/>.
+        /// </summary>
+        public ICommandDefinitionMetadata Command { get; }
+
+        /// <summary>
         /// Get details of paring error.
         /// </summary>
         public ArgsParsingError Error { get; }
 
         readonly HashSet<OptionBase> arguments;
-        readonly Command command;
 
-        internal ArgsParsingResult(HashSet<OptionBase> arguments, Command command)
+        internal ArgsParsingResult(HashSet<OptionBase> arguments, ICommandDefinitionMetadata command)
         {
-            this.IsSuccess = true;
+            IsSuccess = true;
+            Command = command;
+
             this.arguments = arguments ?? new HashSet<OptionBase>();
-            this.command = command;
         }
 
         internal ArgsParsingResult(ArgsParsingError error)
         {
-            this.IsSuccess = false;
-            this.Error = error;
+            IsSuccess = false;
+            Error = error;
         }
 
         /// <summary>
@@ -59,7 +64,7 @@ namespace Args.Parser.Core
 
             try
             {
-                var argument = new FlagArgument(flag, command);
+                var argument = new FlagArgument(flag, (DefaultCommand) Command);
                 return arguments.Any(e => e.Equals(argument));
             }
             catch (ArgsParsingException e)

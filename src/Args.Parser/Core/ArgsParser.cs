@@ -12,9 +12,9 @@ namespace Args.Parser.Core
     public class ArgsParser
     {
         readonly HashSet<OptionBase> arguments = new HashSet<OptionBase>();
-        readonly Command command;
+        readonly ICommandDefinitionMetadata command;
 
-        internal ArgsParser(Command command)
+        internal ArgsParser(ICommandDefinitionMetadata command)
         {
             this.command = command;
         }
@@ -71,14 +71,14 @@ namespace Args.Parser.Core
         {
             if (Config.FullArgRegex.Match(arg).Success)
             {
-                return new List<FlagArgument>() {new FlagArgument(arg, command)};
+                return new List<FlagArgument>() {new FlagArgument(arg, (DefaultCommand) command)};
             }
             if (Config.AbbrArgRegex.Match(arg).Success)
             {
                 try
                 {
                     return arg.Substring(1)
-                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", command))
+                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", (DefaultCommand) command))
                         .ToList();
                 }
                 catch (ArgsParsingException e)

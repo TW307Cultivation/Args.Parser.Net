@@ -19,13 +19,13 @@ namespace Args.Parser.Tests.ArgsParserTests
         }
 
         [Fact]
-        void should_throw_argument_null_exception_when_args_is_null()
+        void should_throw_ArgumentNullException_when_args_is_null()
         {
             Assert.Throws<ArgumentNullException>(() => parser.Parse(null));
         }
 
         [Fact]
-        void should_throw_argument_exception_when_args_has_null_value()
+        void should_throw_ArgumentException_when_args_has_null_value()
         {
             Assert.Throws<ArgumentException>(() => parser.Parse(new string[] {null}));
         }
@@ -39,6 +39,8 @@ namespace Args.Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"--flag", arg});
 
             Assert.False(result.IsSuccess);
+            Assert.Null(result.Command);
+            Assert.NotNull(result.Error);
             Assert.Equal(ArgsParsingErrorCode.FreeValueNotSupported, result.Error.Code);
             Assert.Equal(arg, result.Error.Trigger);
         }
@@ -49,25 +51,31 @@ namespace Args.Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"--flag", "-f"});
 
             Assert.False(result.IsSuccess);
+            Assert.Null(result.Command);
+            Assert.NotNull(result.Error);
             Assert.Equal(ArgsParsingErrorCode.DuplicateFlagsInArgs, result.Error.Code);
             Assert.Equal("-f", result.Error.Trigger);
         }
 
         [Fact]
-        void should_throw_argument_null_exception_when_flag_is_null()
+        void should_throw_ArgumentNullException_when_flag_is_null()
         {
             var result = parser.Parse(new[] {"--flag"});
 
             Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Command);
+            Assert.Null(result.Command.Symbol);
+            Assert.Null(result.Error);
             Assert.Throws<ArgumentNullException>(() => result.GetFlagValue(null));
         }
 
         [Fact]
-        void should_throw_invalid_operation_exception_when_get_flag_value_on_parse_failed()
+        void should_throw_InvalidOperationException_when_get_flag_value_on_parse_failed()
         {
             var result = parser.Parse(new[] {"-flag"});
 
             Assert.False(result.IsSuccess);
+            Assert.Null(result.Command);
             Assert.Throws<InvalidOperationException>(() => result.GetFlagValue("--flag"));
         }
 
@@ -76,11 +84,13 @@ namespace Args.Parser.Tests.ArgsParserTests
         [InlineData("-rf")]
         [InlineData("--not-defined-flags")]
         [InlineData("-a")]
-        void should_throw_argument_exception_when_flag_is_invalid_or_undefined(string flag)
+        void should_throw_ArgumentException_when_flag_is_invalid_or_undefined(string flag)
         {
             var result = parser.Parse(new[] {"--flag"});
 
             Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Command);
+            Assert.Null(result.Command.Symbol);
             Assert.Throws<ArgumentException>(() => result.GetFlagValue(flag));
         }
 
@@ -98,8 +108,10 @@ namespace Args.Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {argument});
 
             Assert.True(result.IsSuccess);
-            Assert.True(result.GetFlagValue(flag));
+            Assert.NotNull(result.Command);
+            Assert.Null(result.Command.Symbol);
             Assert.Null(result.Error);
+            Assert.True(result.GetFlagValue(flag));
         }
 
         [Fact]
@@ -108,9 +120,11 @@ namespace Args.Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"--flag", "-r"});
 
             Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Command);
+            Assert.Null(result.Command.Symbol);
+            Assert.Null(result.Error);
             Assert.True(result.GetFlagValue("-f"));
             Assert.True(result.GetFlagValue("--remove"));
-            Assert.Null(result.Error);
         }
     }
 }

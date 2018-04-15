@@ -7,7 +7,7 @@ namespace Args.Parser.Models
 {
     class FlagArgument : OptionBase
     {
-        public FlagArgument(string argument, Command command)
+        public FlagArgument(string argument, DefaultCommand command)
         {
             var argOption = BuildFlagOption(argument);
             var option = command.GetOption(argOption);

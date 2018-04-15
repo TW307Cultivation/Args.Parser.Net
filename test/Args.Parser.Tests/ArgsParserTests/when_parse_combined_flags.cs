@@ -24,6 +24,8 @@ namespace Args.Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"-rfa"});
 
             Assert.False(result.IsSuccess);
+            Assert.Null(result.Command);
+            Assert.NotNull(result.Error);
             Assert.Equal(ArgsParsingErrorCode.FreeValueNotSupported, result.Error.Code);
             Assert.Equal("-rfa", result.Error.Trigger);
         }
@@ -34,6 +36,8 @@ namespace Args.Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"-rf", "--flag"});
 
             Assert.False(result.IsSuccess);
+            Assert.Null(result.Command);
+            Assert.NotNull(result.Error);
             Assert.Equal(ArgsParsingErrorCode.DuplicateFlagsInArgs, result.Error.Code);
             Assert.Equal("--flag", result.Error.Trigger);
         }
@@ -44,11 +48,13 @@ namespace Args.Parser.Tests.ArgsParserTests
             var result = parser.Parse(new[] {"-rf"});
 
             Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Command);
+            Assert.Null(result.Command.Symbol);
+            Assert.Null(result.Error);
             Assert.True(result.GetFlagValue("--flag"));
             Assert.True(result.GetFlagValue("--remove"));
             Assert.False(result.GetFlagValue("--message"));
             Assert.False(result.GetFlagValue("-m"));
-            Assert.Null(result.Error);
         }
     }
 }
