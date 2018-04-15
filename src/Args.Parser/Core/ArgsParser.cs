@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Args.Parser.Commands;
 using Args.Parser.Exceptions;
 using Args.Parser.Models;
 
@@ -12,11 +13,12 @@ namespace Args.Parser.Core
     public class ArgsParser
     {
         readonly HashSet<OptionBase> arguments = new HashSet<OptionBase>();
-        readonly ICommandDefinitionMetadata command;
 
-        internal ArgsParser(ICommandDefinitionMetadata command)
+        readonly CommandsDefinition commands;
+
+        internal ArgsParser(CommandsDefinition commands)
         {
-            this.command = command;
+            this.commands = commands;
         }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace Args.Parser.Core
                     });
                 }
 
-                return new ArgsParsingResult(arguments, command);
+                return new ArgsParsingResult(arguments, commands.GetCommands()[0]);
             }
             catch (ArgsParsingException e)
             {
@@ -71,14 +73,14 @@ namespace Args.Parser.Core
         {
             if (Config.FullArgRegex.Match(arg).Success)
             {
-                return new List<FlagArgument>() {new FlagArgument(arg, (DefaultCommand) command)};
+                return new List<FlagArgument>() {new FlagArgument(arg, (DefaultCommand) commands.GetCommands()[0])};
             }
             if (Config.AbbrArgRegex.Match(arg).Success)
             {
                 try
                 {
                     return arg.Substring(1)
-                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", (DefaultCommand) command))
+                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", (DefaultCommand) commands.GetCommands()[0]))
                         .ToList();
                 }
                 catch (ArgsParsingException e)

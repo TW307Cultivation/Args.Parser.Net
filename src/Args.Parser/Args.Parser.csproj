@@ -40,15 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandBuilder.cs" />
+    <Compile Include="Commands\CommandsDefinition.cs" />
+    <Compile Include="Commands\DefaultCommand.cs" />
+    <Compile Include="Commands\ICommandDefinition.cs" />
+    <Compile Include="Commands\ICommandDefinitionMetadata.cs" />
     <Compile Include="Core\ArgsParser.cs" />
     <Compile Include="Core\ArgsParserBuilder.cs" />
     <Compile Include="Core\ArgsParsingError.cs" />
     <Compile Include="Core\ArgsParsingErrorCode.cs" />
     <Compile Include="Core\ArgsParsingResult.cs" />
-    <Compile Include="Core\CommandBuilder.cs" />
-    <Compile Include="Core\ICommandDefinitionMetadata.cs" />
     <Compile Include="Exceptions\ArgsParsingException.cs" />
-    <Compile Include="Models\DefaultCommand.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\FlagArgument.cs" />
     <Compile Include="Models\FlagOption.cs" />

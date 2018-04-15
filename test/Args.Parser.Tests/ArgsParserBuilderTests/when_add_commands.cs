@@ -14,7 +14,7 @@ namespace Args.Parser.Tests.ArgsParserBuilderTests
         }
 
         [Fact]
-        void should_throw_InvalidOperationException_when_end_multiple_default_command()
+        void should_throw_InvalidOperationException_when_define_multiple_default_command()
         {
             builder.BeginDefaultCommand().EndCommand();
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Args.Parser.Models;
+﻿using Args.Parser.Commands;
 
 namespace Args.Parser.Core
 {
@@ -9,7 +7,7 @@ namespace Args.Parser.Core
     /// </summary>
     public class ArgsParserBuilder
     {
-        ICommandDefinitionMetadata command;
+        internal CommandsDefinition Commands { get; } = new CommandsDefinition();
 
         /// <summary>
         /// Begin defining default command.
@@ -30,16 +28,7 @@ namespace Args.Parser.Core
         /// </returns>
         public ArgsParser Build()
         {
-            return new ArgsParser(command);
-        }
-
-        internal ArgsParserBuilder RegisterCommand(ICommandDefinitionMetadata command)
-        {
-            if (this.command != null) throw new InvalidOperationException();
-
-            this.command = command;
-
-            return this;
+            return new ArgsParser(Commands);
         }
     }
 }

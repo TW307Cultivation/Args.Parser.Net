@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Args.Parser.Models;
+using Args.Parser.Core;
 
-namespace Args.Parser.Core
+namespace Args.Parser.Commands
 {
     /// <summary>
-    /// Add flags to command.
+    /// Add options to command.
     /// </summary>
     public class CommandBuilder
     {
         readonly ArgsParserBuilder parserBuilder;
 
-        readonly HashSet<OptionBase> options = new HashSet<OptionBase>();
+        readonly ICommandDefinition command;
 
         internal CommandBuilder(ArgsParserBuilder parserBuilder)
         {
             this.parserBuilder = parserBuilder;
+
+            command = new DefaultCommand();
         }
 
         /// <summary>
@@ -41,13 +41,7 @@ namespace Args.Parser.Core
         /// </exception>
         public CommandBuilder AddFlagOption(string fullForm, char? abbrForm, string description)
         {
-            var option = new FlagOption(fullForm, abbrForm?.ToString(), description);
-            if (options.Any(e => e.Equals(option)))
-            {
-                throw new ArgumentException("Duplicate option.");
-            }
-
-            options.Add(option);
+            command.RegisterOption(fullForm, abbrForm, description);
             return this;
         }
 
@@ -57,9 +51,13 @@ namespace Args.Parser.Core
         /// <returns>
         /// A <see cref="ArgsParserBuilder"/> that holds the commands added before.
         /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Add duplicate command.
+        /// </exception>
         public ArgsParserBuilder EndCommand()
         {
-            return parserBuilder.RegisterCommand(new DefaultCommand(options));
+            parserBuilder.Commands.RegisterCommand(command);
+            return parserBuilder;
         }
     }
 }

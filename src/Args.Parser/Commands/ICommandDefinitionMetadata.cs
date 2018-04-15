@@ -1,6 +1,4 @@
-﻿using Args.Parser.Models;
-
-namespace Args.Parser.Core
+﻿namespace Args.Parser.Commands
 {
     /// <summary>
     /// Command definition metadata.
@@ -8,7 +6,7 @@ namespace Args.Parser.Core
     public interface ICommandDefinitionMetadata
     {
         /// <summary>
-        /// The name of <see cref="DefaultCommand"/>.
+        /// The name of command.
         /// </summary>
         string Symbol { get; }
     }
