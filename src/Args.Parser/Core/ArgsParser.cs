@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Args.Parser.Commands;
 using Args.Parser.Exceptions;
-using Args.Parser.Models;
+using Args.Parser.Options;
 
 namespace Args.Parser.Core
 {
@@ -12,7 +13,11 @@ namespace Args.Parser.Core
     /// </summary>
     public class ArgsParser
     {
-        readonly HashSet<OptionBase> arguments = new HashSet<OptionBase>();
+        static readonly Regex FullArgRegex = new Regex(@"^--[a-zA-Z\d_]+[a-zA-Z\d_-]*$", RegexOptions.Compiled);
+
+        static readonly Regex AbbrArgRegex = new Regex(@"^-[a-zA-Z]+$", RegexOptions.Compiled);
+
+        readonly IList<Option> arguments = new List<Option>();
 
         readonly CommandsDefinition commands;
 
@@ -47,21 +52,27 @@ namespace Args.Parser.Core
                 throw new ArgumentException(nameof(args));
             }
 
+            var command = commands.GetCommand(null);
             try
             {
                 foreach (var arg in args)
                 {
-                    BuildArguments(arg).ForEach(e =>
+                    BuildOptions(arg).ForEach(e =>
                     {
-                        if (arguments.Any(a => a.Equals(e)))
+                        var option = command.GetOptions().FirstOrDefault(c => c.Symbol.Equals(e));
+                        if (option == null)
+                        {
+                            throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
+                        }
+                        if (arguments.Any(a => a.Symbol.Equals(e)))
                         {
                             throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateFlagsInArgs, arg);
                         }
-                        arguments.Add(e);
+                        arguments.Add(option);
                     });
                 }
 
-                return new ArgsParsingResult(arguments, commands.GetCommands()[0]);
+                return new ArgsParsingResult(arguments, command);
             }
             catch (ArgsParsingException e)
             {
@@ -69,19 +80,20 @@ namespace Args.Parser.Core
             }
         }
 
-        List<FlagArgument> BuildArguments(string arg)
+        List<OptionSymbol> BuildOptions(string arg)
         {
-            if (Config.FullArgRegex.Match(arg).Success)
+            if (FullArgRegex.Match(arg).Success)
             {
-                return new List<FlagArgument>() {new FlagArgument(arg, (DefaultCommand) commands.GetCommands()[0])};
+                return new List<OptionSymbol>()
+                {
+                    new OptionSymbol(arg.Substring(2), null)
+                };
             }
-            if (Config.AbbrArgRegex.Match(arg).Success)
+            if (AbbrArgRegex.Match(arg).Success)
             {
                 try
                 {
-                    return arg.Substring(1)
-                        .Select(e => new FlagArgument($"{Config.AbbrArgPrefix}{e.ToString()}", (DefaultCommand) commands.GetCommands()[0]))
-                        .ToList();
+                    return arg.Substring(1).Select(e => new OptionSymbol(null, e)).ToList();
                 }
                 catch (ArgsParsingException e)
                 {

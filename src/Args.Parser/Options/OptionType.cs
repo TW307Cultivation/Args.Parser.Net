@@ -1,4 +1,4 @@
-﻿namespace Args.Parser.Models
+﻿namespace Args.Parser.Options
 {
     enum OptionType
     {

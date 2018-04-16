@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Args.Parser.Commands;
 using Args.Parser.Exceptions;
-using Args.Parser.Models;
+using Args.Parser.Options;
 
 namespace Args.Parser.Core
 {
@@ -20,21 +20,22 @@ namespace Args.Parser.Core
         /// <summary>
         /// Get the definition metadata of <see cref="Command"/>.
         /// </summary>
-        public ICommandDefinitionMetadata Command { get; }
+        public ICommandDefinitionMetadata Command => command;
 
         /// <summary>
         /// Get details of paring error.
         /// </summary>
         public ArgsParsingError Error { get; }
 
-        readonly HashSet<OptionBase> arguments;
+        readonly IList<Option> arguments;
+        readonly ICommandDefinition command;
 
-        internal ArgsParsingResult(HashSet<OptionBase> arguments, ICommandDefinitionMetadata command)
+        internal ArgsParsingResult(IList<Option> arguments, ICommandDefinition command)
         {
             IsSuccess = true;
-            Command = command;
 
-            this.arguments = arguments ?? new HashSet<OptionBase>();
+            this.command = command;
+            this.arguments = arguments ?? new List<Option>();
         }
 
         internal ArgsParsingResult(ArgsParsingError error)
@@ -60,13 +61,18 @@ namespace Args.Parser.Core
         /// </exception>
         public bool GetFlagValue(string flag)
         {
-            if (flag == null) throw new ArgumentNullException(nameof(flag));
             if (!IsSuccess) throw new InvalidOperationException();
 
             try
             {
-                var argument = new FlagArgument(flag, (DefaultCommand) Command);
-                return arguments.Any(e => e.Equals(argument));
+                var symbol = new OptionSymbol(flag);
+
+                if (!command.GetOptions().Any(c => c.Symbol.Equals(symbol)))
+                {
+                    throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, flag);
+                }
+
+                return arguments.Any(e => e.Symbol.Equals(symbol));
             }
             catch (ArgsParsingException e)
             {

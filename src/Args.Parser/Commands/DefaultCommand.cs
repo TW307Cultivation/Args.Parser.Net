@@ -1,31 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Args.Parser.Models;
+using Args.Parser.Options;
 
 namespace Args.Parser.Commands
 {
     class DefaultCommand : ICommandDefinition
     {
-        public string Symbol => null;
+        IList<Option> Options { get; } = new List<Option>();
 
-        IList<OptionBase> Options { get; } = new List<OptionBase>();
+        public string Symbol => null;
 
         public void RegisterOption(string fullForm, char? abbrForm, string description)
         {
-            var option = new FlagOption(fullForm, abbrForm?.ToString(), description);
+            var symbol = new OptionSymbol(fullForm, abbrForm);
 
-            if (Options.Any(e => e.Equals(option)))
+            if (Options.Any(e => e.Symbol.Equals(symbol)))
             {
                 throw new ArgumentException("Duplicate option.");
             }
-            Options.Add(option);
+
+            Options.Add(new FlagOption(symbol, description));
         }
 
-        public OptionBase GetOption(FlagOption argOption)
+        public IEnumerable<Option> GetOptions()
         {
-            return Options.FirstOrDefault(e => e.Equals(argOption));
+            return new List<Option>(Options);
         }
 
+        public Option GetOption(FlagOption argOption)
+        {
+            return Options.FirstOrDefault(e => e.Symbol.Equals(argOption.Symbol));
+        }
     }
 }
