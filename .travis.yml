@@ -1,0 +1,15 @@
+language: csharp
+mono: none
+dotnet: 2.1.101
+
+addons:
+  sonarcloud:
+    organization: "tw307cultivation"
+    token:
+      secure: $SONARCLOUD_TOKEN
+
+script:
+  - dotnet --info
+  - dotnet restore
+  - dotnet test ./test/Args.Parser.Test/Args.Parser.Test.csproj
+  - sonar-scanner
