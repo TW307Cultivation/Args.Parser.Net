@@ -27,15 +27,15 @@ namespace Args.Parser.Core
         /// </summary>
         public ArgsParsingError Error { get; }
 
-        readonly IList<Option> arguments;
+        readonly IList<IOptionDefinitionMetadata> arguments;
         readonly ICommandDefinition command;
 
-        internal ArgsParsingResult(IList<Option> arguments, ICommandDefinition command)
+        internal ArgsParsingResult(IList<IOptionDefinitionMetadata> arguments, ICommandDefinition command)
         {
             IsSuccess = true;
 
             this.command = command;
-            this.arguments = arguments ?? new List<Option>();
+            this.arguments = arguments ?? new List<IOptionDefinitionMetadata>();
         }
 
         internal ArgsParsingResult(ArgsParsingError error)
@@ -67,12 +67,12 @@ namespace Args.Parser.Core
             {
                 var symbol = new OptionSymbol(flag);
 
-                if (!command.GetOptions().Any(c => c.Symbol.Equals(symbol)))
+                if (!command.GetRegisteredOptionsMetadata().Any(c => c.SymbolMetadata.Equals(symbol)))
                 {
                     throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, flag);
                 }
 
-                return arguments.Any(e => e.Symbol.Equals(symbol));
+                return arguments.Any(e => e.SymbolMetadata.Equals(symbol));
             }
             catch (ArgsParsingException e)
             {

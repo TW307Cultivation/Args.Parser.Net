@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Args.Parser.Commands;
 using Args.Parser.Core;
 using Args.Parser.Exceptions;
 
 namespace Args.Parser.Options
 {
-    class OptionSymbol
+    class OptionSymbol : IOptionSymbolMetadata
     {
-        public string Full { get;}
+        public string FullForm { get;}
 
-        public char? Abbr { get; }
+        public char? Abbreviation { get; }
 
         static readonly Regex FullOptionRegex = new Regex(@"^[a-zA-Z\d_]+[a-zA-Z\d_-]*$", RegexOptions.Compiled);
 
@@ -19,23 +20,23 @@ namespace Args.Parser.Options
 
         const string AbbrArgPrefix = "-";
 
-        public OptionSymbol(string full, char? abbr)
+        public OptionSymbol(string fullForm, char? abbreviation)
         {
-            if (full == null && abbr == null)
+            if (fullForm == null && abbreviation == null)
             {
                 throw new ArgumentException("The option need a full form or abbreviation form.");
             }
-            if (full != null && !FullOptionRegex.Match(full).Success)
+            if (fullForm != null && !FullOptionRegex.Match(fullForm).Success)
             {
                 throw new ArgumentException("This full form argument is invalid.");
             }
-            if (abbr != null && !AbbrOptionRegex.Match(abbr.ToString()).Success)
+            if (abbreviation != null && !AbbrOptionRegex.Match(abbreviation.ToString()).Success)
             {
                 throw new ArgumentException("This abbreviation form argument is invalid.");
             }
 
-            Full = full;
-            Abbr = abbr;
+            FullForm = fullForm;
+            Abbreviation = abbreviation;
         }
 
         public OptionSymbol(string arg)
@@ -44,12 +45,12 @@ namespace Args.Parser.Options
 
             if (arg.StartsWith(FullArgPrefix) && FullOptionRegex.Match(arg.Substring(2)).Success)
             {
-                Full = arg.Substring(2);
+                FullForm = arg.Substring(2);
                 return;
             }
             if (arg.StartsWith(AbbrArgPrefix) && AbbrOptionRegex.Match(arg.Substring(1)).Success)
             {
-                Abbr = arg[1];
+                Abbreviation = arg[1];
                 return;
             }
             throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
@@ -57,8 +58,8 @@ namespace Args.Parser.Options
 
         bool Equals(OptionSymbol other)
         {
-            return Full != null && string.Equals(Full, other.Full, StringComparison.OrdinalIgnoreCase) ||
-                   Abbr != null && string.Equals(Abbr.ToString(), other.Abbr.ToString(), StringComparison.OrdinalIgnoreCase);
+            return FullForm != null && string.Equals(FullForm, other.FullForm, StringComparison.OrdinalIgnoreCase) ||
+                   Abbreviation != null && string.Equals(Abbreviation.ToString(), other.Abbreviation.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
         public override bool Equals(object obj)
@@ -73,8 +74,9 @@ namespace Args.Parser.Options
         {
             unchecked
             {
-                return ((Full != null ? Full.GetHashCode() : 0) * 397) ^ Abbr.GetHashCode();
+                return ((FullForm != null ? FullForm.GetHashCode() : 0) * 397) ^ Abbreviation.GetHashCode();
             }
         }
+
     }
 }

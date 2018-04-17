@@ -17,7 +17,7 @@ namespace Args.Parser.Core
 
         static readonly Regex AbbrArgRegex = new Regex(@"^-[a-zA-Z]+$", RegexOptions.Compiled);
 
-        readonly IList<Option> arguments = new List<Option>();
+        readonly IList<IOptionDefinitionMetadata> arguments = new List<IOptionDefinitionMetadata>();
 
         readonly CommandsDefinition commands;
 
@@ -52,19 +52,19 @@ namespace Args.Parser.Core
                 throw new ArgumentException(nameof(args));
             }
 
-            var command = commands.GetCommand(null);
+            var command = commands.GetCommand();
             try
             {
                 foreach (var arg in args)
                 {
-                    BuildOptions(arg).ForEach(e =>
+                    BuildSymbols(arg).ForEach(e =>
                     {
-                        var option = command.GetOptions().FirstOrDefault(c => c.Symbol.Equals(e));
+                        var option = command.GetRegisteredOptionsMetadata().FirstOrDefault(c => c.SymbolMetadata.Equals(e));
                         if (option == null)
                         {
                             throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
                         }
-                        if (arguments.Any(a => a.Symbol.Equals(e)))
+                        if (arguments.Any(a => a.SymbolMetadata.Equals(e)))
                         {
                             throw new ArgsParsingException(ArgsParsingErrorCode.DuplicateFlagsInArgs, arg);
                         }
@@ -80,25 +80,15 @@ namespace Args.Parser.Core
             }
         }
 
-        List<OptionSymbol> BuildOptions(string arg)
+        List<OptionSymbol> BuildSymbols(string arg)
         {
             if (FullArgRegex.Match(arg).Success)
             {
-                return new List<OptionSymbol>()
-                {
-                    new OptionSymbol(arg.Substring(2), null)
-                };
+                return new List<OptionSymbol>() { new OptionSymbol(arg.Substring(2), null) };
             }
             if (AbbrArgRegex.Match(arg).Success)
             {
-                try
-                {
-                    return arg.Substring(1).Select(e => new OptionSymbol(null, e)).ToList();
-                }
-                catch (ArgsParsingException e)
-                {
-                    throw new ArgsParsingException(e.Code, arg);
-                }
+                return arg.Substring(1).Select(e => new OptionSymbol(null, e)).ToList();
             }
             throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
         }

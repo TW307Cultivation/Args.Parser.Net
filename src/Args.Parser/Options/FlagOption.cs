@@ -1,10 +1,12 @@
-﻿namespace Args.Parser.Options
+﻿using Args.Parser.Commands;
+
+namespace Args.Parser.Options
 {
     class FlagOption : Option
     {
         public override OptionType Type => OptionType.Flag;
 
-        public FlagOption(OptionSymbol symbol, string description) : base(symbol, description)
+        public FlagOption(IOptionSymbolMetadata symbolMetadata, string description) : base(symbolMetadata, description)
         {
         }
     }

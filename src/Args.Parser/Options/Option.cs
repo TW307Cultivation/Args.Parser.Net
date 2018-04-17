@@ -1,17 +1,19 @@
-﻿namespace Args.Parser.Options
+﻿using Args.Parser.Commands;
+
+namespace Args.Parser.Options
 {
-    abstract class Option
+    abstract class Option : IOptionDefinitionMetadata
     {
         public abstract OptionType Type { get; }
 
-        public OptionSymbol Symbol { get; }
+        public IOptionSymbolMetadata SymbolMetadata { get; }
 
         public string Description { get; }
 
-        protected Option(OptionSymbol symbol, string description)
+        protected Option(IOptionSymbolMetadata symbolMetadata, string description)
         {
-            Symbol = symbol;
-            Description = description;
+            SymbolMetadata = symbolMetadata;
+            Description = description ?? string.Empty;
         }
     }
 }

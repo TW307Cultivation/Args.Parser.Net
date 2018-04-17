@@ -18,7 +18,7 @@ namespace Args.Parser.Commands
             Commands.Add(command);
         }
 
-        public ICommandDefinition GetCommand(string symbol)
+        public ICommandDefinition GetCommand(string symbol = null)
         {
             return Commands.FirstOrDefault(e => e.Symbol == symbol);
         }
