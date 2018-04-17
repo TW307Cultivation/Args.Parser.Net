@@ -3,7 +3,7 @@ using Args.Parser.Commands;
 using Args.Parser.Core;
 using Xunit;
 
-namespace Args.Parser.Tests.CommandBuilderTests
+namespace Args.Parser.Test.CommandBuilderTests
 {
     public class when_add_flags
     {

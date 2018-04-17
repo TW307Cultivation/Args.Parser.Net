@@ -2,7 +2,7 @@
 using Args.Parser.Core;
 using Xunit;
 
-namespace Args.Parser.Tests.ArgsParserBuilderTests
+namespace Args.Parser.Test.ArgsParserBuilderTests
 {
     public class when_add_commands
     {

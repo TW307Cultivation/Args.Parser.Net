@@ -1,7 +1,7 @@
 ﻿using Args.Parser.Core;
 using Xunit;
 
-namespace Args.Parser.Tests.ArgsParserTests
+namespace Args.Parser.Test.ArgsParserTests
 {
     public class when_parse_combined_flags
     {
