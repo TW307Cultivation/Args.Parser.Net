@@ -1,8 +1,6 @@
-﻿using Args.Parser.Commands;
-
-namespace Args.Parser.Options
+﻿namespace Args.Parser.Options
 {
-    abstract class Option : IOptionDefinitionMetadata
+    abstract class OptionDefinition : IOptionDefinitionMetadata
     {
         public abstract OptionType Type { get; }
 
@@ -10,7 +8,7 @@ namespace Args.Parser.Options
 
         public string Description { get; }
 
-        protected Option(IOptionSymbolMetadata symbolMetadata, string description)
+        protected OptionDefinition(IOptionSymbolMetadata symbolMetadata, string description)
         {
             SymbolMetadata = symbolMetadata;
             Description = description ?? string.Empty;

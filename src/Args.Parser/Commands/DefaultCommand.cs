@@ -27,7 +27,7 @@ namespace Args.Parser.Commands
                 throw new ArgumentException("Duplicate option.");
             }
 
-            Options.Add(new FlagOption(symbol, description));
+            Options.Add(new FlagOptionDefinition(symbol, description));
         }
     }
 }

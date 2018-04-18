@@ -1,4 +1,4 @@
-﻿namespace Args.Parser.Commands
+﻿namespace Args.Parser.Options
 {
     /// <summary>
     /// The option symbol metadata.

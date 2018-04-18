@@ -8,7 +8,7 @@ namespace Args.Parser.Commands
     {
         IList<ICommandDefinition> Commands { get; } = new List<ICommandDefinition>();
 
-        public void RegisterCommand(ICommandDefinition command)
+        internal void RegisterCommand(ICommandDefinition command)
         {
             if (Commands.Any(e => e.Symbol == command.Symbol))
             {
@@ -18,7 +18,7 @@ namespace Args.Parser.Commands
             Commands.Add(command);
         }
 
-        public ICommandDefinition GetCommand(string symbol = null)
+        internal ICommandDefinition GetCommand(string symbol = null)
         {
             return Commands.FirstOrDefault(e => e.Symbol == symbol);
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Args.Parser.Commands;
 using Args.Parser.Core;
 using Args.Parser.Exceptions;
 
@@ -9,18 +8,15 @@ namespace Args.Parser.Options
     class OptionSymbol : IOptionSymbolMetadata
     {
         public string FullForm { get;}
-
         public char? Abbreviation { get; }
 
         static readonly Regex FullOptionRegex = new Regex(@"^[a-zA-Z\d_]+[a-zA-Z\d_-]*$", RegexOptions.Compiled);
-
         static readonly Regex AbbrOptionRegex = new Regex(@"^[a-zA-Z]{1}$", RegexOptions.Compiled);
 
         const string FullArgPrefix = "--";
-
         const string AbbrArgPrefix = "-";
 
-        public OptionSymbol(string fullForm, char? abbreviation)
+        internal OptionSymbol(string fullForm, char? abbreviation)
         {
             if (fullForm == null && abbreviation == null)
             {
@@ -39,7 +35,7 @@ namespace Args.Parser.Options
             Abbreviation = abbreviation;
         }
 
-        public OptionSymbol(string arg)
+        internal OptionSymbol(string arg)
         {
             if (arg == null) throw new ArgumentNullException(nameof(arg));
 
@@ -53,7 +49,7 @@ namespace Args.Parser.Options
                 Abbreviation = arg[1];
                 return;
             }
-            throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
+            throw new ParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
         }
 
         bool Equals(OptionSymbol other)
@@ -77,6 +73,5 @@ namespace Args.Parser.Options
                 return ((FullForm != null ? FullForm.GetHashCode() : 0) * 397) ^ Abbreviation.GetHashCode();
             }
         }
-
     }
 }

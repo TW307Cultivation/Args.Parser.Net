@@ -5,13 +5,13 @@ using Args.Parser.Core;
 
 namespace Args.Parser.Exceptions
 {
-    class ArgsParsingException : Exception
+    class ParsingException : Exception
     {
-        public ArgsParsingErrorCode Code { get; }
+        internal ArgsParsingErrorCode Code { get; }
 
-        public string Trigger { get; }
+        internal string Trigger { get; }
 
-        public ArgsParsingException(ArgsParsingErrorCode code, string trigger)
+        internal ParsingException(ArgsParsingErrorCode code, string trigger)
         {
             Code = code;
             Trigger = trigger;

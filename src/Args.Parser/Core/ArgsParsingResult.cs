@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Args.Parser.Arguments;
 using Args.Parser.Commands;
 using Args.Parser.Exceptions;
 using Args.Parser.Options;
@@ -20,28 +20,26 @@ namespace Args.Parser.Core
         /// <summary>
         /// Get the definition metadata of <see cref="Command"/>.
         /// </summary>
-        public ICommandDefinitionMetadata Command => command;
+        public ICommandDefinitionMetadata Command => definition?.Command;
 
         /// <summary>
         /// Get details of paring error.
         /// </summary>
         public ArgsParsingError Error { get; }
 
-        readonly IList<IOptionDefinitionMetadata> arguments;
-        readonly ICommandDefinition command;
-
-        internal ArgsParsingResult(IList<IOptionDefinitionMetadata> arguments, ICommandDefinition command)
-        {
-            IsSuccess = true;
-
-            this.command = command;
-            this.arguments = arguments ?? new List<IOptionDefinitionMetadata>();
-        }
+        readonly ArgumentsDefinition definition;
 
         internal ArgsParsingResult(ArgsParsingError error)
         {
             IsSuccess = false;
             Error = error;
+        }
+
+        internal ArgsParsingResult(ArgumentsDefinition definition)
+        {
+            IsSuccess = true;
+
+            this.definition = definition;
         }
 
         /// <summary>
@@ -66,15 +64,16 @@ namespace Args.Parser.Core
             try
             {
                 var symbol = new OptionSymbol(flag);
+                var option = definition.Flags.FirstOrDefault(c => c.Option.SymbolMetadata.Equals(symbol));
 
-                if (!command.GetRegisteredOptionsMetadata().Any(c => c.SymbolMetadata.Equals(symbol)))
+                if (option == null)
                 {
-                    throw new ArgsParsingException(ArgsParsingErrorCode.FreeValueNotSupported, flag);
+                    throw new ParsingException(ArgsParsingErrorCode.FreeValueNotSupported, flag);
                 }
 
-                return arguments.Any(e => e.SymbolMetadata.Equals(symbol));
+                return option.Value;
             }
-            catch (ArgsParsingException e)
+            catch (ParsingException e)
             {
                 throw new ArgumentException(e.Message);
             }
