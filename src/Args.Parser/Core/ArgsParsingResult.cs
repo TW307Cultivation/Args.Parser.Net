@@ -45,8 +45,8 @@ namespace Args.Parser.Core
         /// <summary>
         /// Get flag value.
         /// </summary>
-        /// <param name="flag">
-        /// The full form or abbreviation form flag.
+        /// <param name="arg">
+        /// The full form or abbreviation form flag name.
         /// </param>
         /// <returns>
         /// If the flag is specified, return true, otherwise false.
@@ -57,18 +57,18 @@ namespace Args.Parser.Core
         /// <exception cref="ArgumentException">
         /// The flag argument is invalid or undefined.
         /// </exception>
-        public bool GetFlagValue(string flag)
+        public bool GetFlagValue(string arg)
         {
             if (!IsSuccess) throw new InvalidOperationException();
 
             try
             {
-                var symbol = new OptionSymbol(flag);
+                var symbol = new OptionSymbol(arg);
                 var option = definition.Flags.FirstOrDefault(c => c.Option.SymbolMetadata.Equals(symbol));
 
                 if (option == null)
                 {
-                    throw new ParsingException(ArgsParsingErrorCode.FreeValueNotSupported, flag);
+                    throw new ParsingException(ArgsParsingErrorCode.FreeValueNotSupported, arg);
                 }
 
                 return option.Value;

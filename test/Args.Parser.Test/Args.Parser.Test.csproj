@@ -26,4 +26,7 @@
       <Name>Args.Parser</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ArgsParsingResult" />
+  </ItemGroup>
 </Project>

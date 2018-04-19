@@ -30,7 +30,7 @@ namespace Args.Parser.Commands
         /// The option's abbreviation form.
         /// </param>
         /// <param name="description">
-        /// The option's description.
+        /// The option's description, default value is null.
         /// </param>
         /// <returns>
         /// A <see cref="ArgsParserBuilder"/> that can add option continuously.
@@ -39,7 +39,7 @@ namespace Args.Parser.Commands
         /// Add duplicate option, or
         /// the <paramref name="fullForm"/> or <paramref name="abbrForm"/> is invalid.
         /// </exception>
-        public CommandBuilder AddFlagOption(string fullForm, char? abbrForm, string description)
+        public CommandBuilder AddFlagOption(string fullForm, char? abbrForm, string description = null)
         {
             command.RegisterOption(fullForm, abbrForm, description);
             return this;

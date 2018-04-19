@@ -1,24 +1,15 @@
-﻿using System;
-using Args.Parser.Core;
+﻿using Args.Parser.Core;
 using Xunit;
 
 namespace Args.Parser.Test.ArgsParserBuilderTests
 {
-    public class when_add_commands
+    public class when_build_a_parser
     {
         readonly ArgsParserBuilder builder;
 
-        public when_add_commands()
+        public when_build_a_parser()
         {
             builder = new ArgsParserBuilder();
-        }
-
-        [Fact]
-        void should_throw_InvalidOperationException_when_define_multiple_default_command()
-        {
-            builder.BeginDefaultCommand().EndCommand();
-
-            Assert.Throws<InvalidOperationException>(() => builder.BeginDefaultCommand().EndCommand());
         }
 
         [Fact]
