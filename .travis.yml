@@ -4,7 +4,7 @@ dotnet: 2.1.101
 
 addons:
   sonarcloud:
-    organization: "tw307cultivation"
+    organization: "tw-cultivation"
     token:
       secure: $SONARCLOUD_TOKEN
 
